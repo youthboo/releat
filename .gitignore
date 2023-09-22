@@ -3,6 +3,7 @@ data/*
 mt5setup.exe
 python-3.*.exe
 
+
 # Default python exclusions
 # Byte-compiled / optimized / DLL files
 __pycache__/

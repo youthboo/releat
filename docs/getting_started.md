@@ -10,22 +10,40 @@
 
 ### Run Container
 
-The simplest method is to use VSCode's Dev Container extension. The configuration is already set up in the `.devcontainer` folder. See the [official guide] on how to get it running. For alternative ways to build the Dockerfile or run the container see the [developer notes on containerisation](<development_notes/releat_dockerfile.md#building-the-container>).
+The simplest method is to use VSCode's Dev Container extension. The configuration is already set up in the `.devcontainer` folder. See the [VSCode's guide] on how to get it running. For alternative ways to build from the Dockerfile or run the container see the [developer notes on containerisation](<development_notes/releat_dockerfile.md#building-the-container>).
 
-[official guide]: https://code.visualstudio.com/docs/devcontainers/tutorial
+[VSCode's guide]: https://code.visualstudio.com/docs/devcontainers/tutorial
 
-Install library and activate local environment and install the current project:
+Install library, activate local environment, build the python wheel and install the current project:
 
 ```
 poetry install
 source activate ./.venv
+poetry build
+pip install --user ./dist/releat-0.0.1-py3-none-any.whl --force-reinstall --no-deps
 ```
 
-### Start
 
-Starts Aerospike, Ray and MetaTrader5
+### Start Services
 
-Placeholder
+Start Aerospike, Ray and MetaTrader5:
+
+```
+releat start
+```
+
+Note:
+
+- Check that the correct number of gpus are being passed through
+
+Troubleshooting:
+
+- Upon first open, you need to click autotrading + click add account in order for MT5 to connect to servers, otherwise it just hangs
+
+- If the wine gui is frozen or you can't click on buttons or resizing windows causes distortion, restart your linux or wsl machine or container
+
+- You may may need to manually log into MT5 and click on the Autotrade / Algorithm button to enable api access
+
 
 ### Configure Agent
 
