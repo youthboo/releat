@@ -6,6 +6,9 @@ authors = ["releat215 <releat215@gmail.com>"]
 readme = "README.md"
 packages = [{include = "releat"}]
 
+[tool.poetry.scripts]
+releat = "releat.cli:app"
+
 [tool.poetry.dependencies]
 python = "3.10.10"
 ib-insync = "^0.9"
@@ -17,14 +20,14 @@ statsmodels = "^0.13"
 scikit-learn = "^1.2"
 pandas = "^1.5"
 matplotlib = "^3.7"
-ray = {extras = ["all"], version = "2.5.1"}
+ray = {extras = ["all"], version = "^2.5"}
 polars = {extras = ["fsspec", "numpy", "pyarrow","pandas"], version = "^0.18"}
 pydantic = "^1.10"
 fastapi="0.99.1"
 plotly = "^5.15.0"
 notebook = "^7.0.0"
 ipywidgets = "^8.0.7"
-tensorflow = "2.11.0"
+tensorflow = "2.13.0"
 flask = "^2.3.3"
 setproctitle = "^1.3.2"
 typer = "^0.9.0"
@@ -55,7 +58,6 @@ optional = true
 
 [tool.poetry.group.rl.dependencies]
 aerospike = "^10.0"
-tensorflow = {version = "2.11.0", platform="linux"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

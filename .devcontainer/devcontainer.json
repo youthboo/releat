@@ -1,5 +1,5 @@
 {
-	"name": "releat-dc",
+	"name": "releat",
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	// "context": "..",
@@ -14,13 +14,16 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
+    // shm-size is necessary for ray
     "runArgs": [
+        "--name=releat-dc",
 		"--gpus=all",
-        "--net=host"
+        "--net=host",
+        "--shm-size=8gb"
 	],
 
     // Uncomment the next line to run commands after the container is created - for example installing curl.
-	// "postStartCommand": ["/bin/bash", "./infrastructure/releat/entrypoint.sh"],
+	"postStartCommand": ["/bin/bash", "./infrastructure/releat/entrypoint.sh"],
 
     "customizations": {
         "vscode": {

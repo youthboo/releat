@@ -68,9 +68,4 @@ RUN wget -O aerospike.tgz https://download.aerospike.com/artifacts/aerospike-ser
 	&& cd .. \
 	&& rm aerospike.tgz
 
-# Assuming the context for the build command is the repo folder
-WORKDIR /releat
-COPY ./infrastructure/releat/entrypoint.sh /releat
-COPY ./pyproject.toml /releat
-
-ENTRYPOINT ["/bin/bash",  "-c", "./entrypoint.sh && /bin/bash"]
+ENTRYPOINT ["/bin/bash"]

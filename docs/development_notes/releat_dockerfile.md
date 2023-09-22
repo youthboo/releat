@@ -167,24 +167,14 @@ RUN wget -O aerospike.tgz https://download.aerospike.com/artifacts/aerospike-ser
 	&& ./asinstall \
 	&& cd .. \
 	&& rm aerospike.tgz
+
+ENTRYPOINT ["/bin/bash"]
 ```
 
 ## Entrypoint
 
-Dockerfile invokes the following entrypoint - Needs to be fixed, maybe need to add
-bin/bash at the end of it depending on the entrypoint file, may also need to use bash
-instead of sh.
+The default entrypoint is the bash terminal. An entrypoint script is included in that folder and run depending on how you plan on accessing the container. The next section explains each component of the entrypoint script, followed by the different ways to [build](#building-the-container) and [run](#running-the-container) the container
 
-Note: Assumes repo folder is the context
-
-``` { .sh .no-copy }
-# Assuming the context for the build command is the repo folder
-WORKDIR /releat
-COPY ./infrastructure/releat/entrypoint.sh /releat
-COPY ./pyproject.toml /releat
-
-ENTRYPOINT ["/bin/bash",  "-c", "./entrypoint.sh && /bin/bash"]
-```
 
 ### Entrypoint logic
 
@@ -311,7 +301,7 @@ asd --config-file ./infrastructure/aerospike.conf
 
 ## Building the Container
 
-Using the repo folder as your context, the DockerFile can be built by the following command.
+Using the repo folder as your context / current working directory, the DockerFile can be built by the following command.
 
 ```
 docker build -t releat -f ./infrastructure/releat/Dockerfile .
@@ -329,26 +319,22 @@ This container can be used for development in 2 main ways:
 
 If you use VSCode as your IDE, you can use the Dev Container extension, using the provided specification in the `.devcontainer` folder. See the [official guide] on how to start it up.
 
+- Note that in the `.devcontainer/devcontainer.json`, we invoke the entrypoint script after the docker image has been started up to install the project and MetaTrader5
+
 - Upon first open, you need to click autotrading + click add account in order for MT5 to connect to servers, otherwise it just hangs
 
-- Future work to make it more stable: If Developing on Windows system via WSL, to pass through Metatrader GUI, follow [this guide] and [this discussion]
+- If the wine gui is frozen or you can't click on buttons or resizing windows causes distortion, restart your linux or wsl machine or container
+
+
+Side Notes:
+
+- Future low priority work to make it more stable: If Developing on Windows system via WSL, to pass through Metatrader GUI, follow [this guide] and [this discussion]
 
 [official guide]: https://code.visualstudio.com/docs/devcontainers/tutorial
 
 ### docker run
 
-- `--net host` container shares network with the host, meaning we don't need to manually listen to ports - i think this also allows the container to access the internet
-
-- `-v /tmp/.X11-unix:/tmp/.X11-unix` passes through the display. Necessary because MT5 can't be run headlessly (without lots of tinkering)
-
-- `-e DISPLAY` Maybe its necessary to pass through the display
-
-- `-v $(pwd):/releat` mounts the repo to the corresponding location in the container
-
-- Still need add in code that binds the location of the repo / fix this docker run code
-
-[this guide]: https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html
-[this discussion]: https://stackoverflow.com/questions/61110603/how-to-set-up-working-x11-forwarding-on-wsl2/63092879#63092879
+Assumes your context / current working directory is the repo folder. We can build the docker image by:
 
 ``` { .sh .no-copy }
 docker run \
@@ -357,6 +343,27 @@ docker run \
     -v $(pwd):/releat \
     -e DISPLAY \
     -it \
-    --name releat \
-    releat215/releat:1.0
+    --name test \
+    --gpus=all \
+    releat215/releat:1.0 \
+    -c './releat/infrastructure/releat/entrypoint.sh && cd releat && /bin/bash'
 ```
+
+- `--net host` container shares network with the host, meaning we don't need to manually listen to ports - i think this also allows the container to access the internet
+
+- `-v /tmp/.X11-unix:/tmp/.X11-unix` passes through the display. Necessary because MT5 can't be run headlessly (without lots of tinkering)
+
+- `-v $(pwd):/releat` mounts
+
+- `-e DISPLAY` Maybe its necessary to pass through the display
+
+- `-v $(pwd):/releat` mounts the repo to the corresponding location in the container
+
+- `--gpus=all` passes through GPUs from your machine to the container
+
+
+
+- Still need add in code that binds the location of the repo / fix this docker run code
+
+[this guide]: https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html
+[this discussion]: https://stackoverflow.com/questions/61110603/how-to-set-up-working-x11-forwarding-on-wsl2/63092879#63092879
