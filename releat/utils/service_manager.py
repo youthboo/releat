@@ -19,7 +19,7 @@ from releat.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
-def start_blocking_process(cmd_str, blocking=True):
+def start_process(cmd_str, blocking=True):
     """Start process.
 
     Args:
@@ -87,6 +87,7 @@ def kill_processes(pids):
     if len(pids) > 0:
         for pid in pids:
             os.kill(pid, signal.SIGTERM)
+            logger.debug(f"process id: {pid} killed")
 
 
 def start_aerospike():
@@ -94,7 +95,7 @@ def start_aerospike():
     res = subprocess.run("asinfo -v STATUS", capture_output=True, text=True, shell=True)
     if "ERROR" in res.stdout != "":
         cmd_str = "asd --config-file ./infrastructure/aerospike/aerospike.conf"
-        _ = start_blocking_process(cmd_str, blocking=False)
+        _ = start_process(cmd_str, blocking=False)
         logger.info("Aerospike started")
     else:
         logger.info("Aerospike already started")
@@ -111,7 +112,7 @@ def start_mt5():
     """Start MetaTrader5."""
     cmd_str = 'wine "/root/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe"'
     logger.debug(cmd_str)
-    _ = start_blocking_process(cmd_str, blocking=False)
+    _ = start_process(cmd_str, blocking=False)
     logger.info("MT5 started")
 
 
@@ -136,13 +137,21 @@ def start_ray():
         # TODO should I be specifying the ports?
         cmd_str = f"ray start --head --num-cpus={num_cpus} --num-gpus={num_gpus} "
         logger.debug(cmd_str)
-        _ = start_blocking_process(cmd_str, blocking=False)
+        _ = start_process(cmd_str, blocking=False)
         logger.info("Ray started")
+
+
+def start_mt5_api(broker, symbol):
+    """Start MetaTrader5 api."""
+    cmd_str = f"wine poetry run python ./apis/mt5.py -b {broker} -s {symbol}"
+    logger.debug(cmd_str)
+    _ = start_process(cmd_str, blocking=False)
+    logger.info(f"MT5 api started for {broker} {symbol}")
 
 
 def stop_ray():
     """Stop ray."""
-    _ = start_blocking_process("ray stop", blocking=False)
+    _ = start_process("ray stop", blocking=False)
     logger.info("Ray stopped")
 
 
