@@ -44,6 +44,8 @@ Troubleshooting:
 
 - You may may need to manually log into MT5 and click on the Autotrade / Algorithm button to enable api access
 
+- If MetaTrader5 does not start up and there's no error message, rebuild container (i.e. start a new container and run an entrypoint script of click on the rebuild container option in VSCode's Dev Container)
+
 
 ### Configure Agent
 

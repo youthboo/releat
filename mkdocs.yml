@@ -12,6 +12,8 @@ plugins:
   - tags:
       tags_file: tags.md
 
+extra_css:
+  - css/style.css
 
 theme:
   name: material
@@ -35,9 +37,11 @@ theme:
     code: 'Roboto Mono'
 
 
-  # logo: assets/logo.png
+  logo: images/logo-6.png
 
-  # favicon: images/favicon.png
+  favicon: images/logo-6.png
+
+
 
   features:
 
@@ -57,9 +61,9 @@ theme:
   # Table of Contents
   - toc.follow
 
-  icon:
-    logo: 'material/library'
-    repo: 'material/library'
+  # icon:
+  #   logo: 'images/logo-1.png'
+  #   repo: 'images/logo-1.png'
 
 
   #admonition:
