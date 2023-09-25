@@ -19,7 +19,8 @@
         "--name=releat-dc",
 		"--gpus=all",
         "--net=host",
-        "--shm-size=8gb"
+        "--shm-size=8gb",
+        "-e DISPLAY=$DISPLAY"
 	],
 
     // Uncomment the next line to run commands after the container is created - for example installing curl.

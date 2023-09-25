@@ -38,8 +38,8 @@ fi
 echo "installing wine python"
 if ! test -f "python-${PY_V}-amd64.exe"; then
 wget https://www.python.org/ftp/python/${PY_V}/python-${PY_V}-amd64.exe
-wine python-${PY_V}-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
 fi
+wine python-${PY_V}-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
 # && rm python-${PY_V}-amd64.exe \
 echo "Python installed successfully"
 
@@ -54,7 +54,7 @@ echo "installing python packages" \
 echo "Installing MT5"
 if ! test -f "mt5setup.exe"; then
 wget https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe
-wine mt5setup.exe /auto
 fi
+wine mt5setup.exe /auto
 # && rm mt5setup.exe \
 echo "MT5 installed successfully"
