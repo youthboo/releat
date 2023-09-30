@@ -11,7 +11,7 @@ from time import sleep
 import requests
 
 from releat.utils.configs.constants import mt5_api_port_map
-from releat.utils.configs.constants import mt5_demo_configs
+from releat.utils.configs.constants import mt_creds
 from releat.utils.logging import get_logger
 from releat.utils.service_manager import start_mt5
 from releat.utils.service_manager import start_mt5_api
@@ -24,12 +24,13 @@ def test_mt5_api():
 
     start_mt5()
 
-    start_mt5_api("metaquotes", "trader")
+    start_mt5_api("metaquotes", "general")
 
     sleep(5)
 
-    mt5_config = mt5_demo_configs[0]
-    port = mt5_api_port_map[mt5_config["broker"]]["trader"]
+    broker = "metaquotes"
+    mt5_config = mt_creds[broker]["demo"][0]
+    port = mt5_api_port_map[broker]["general"]
 
     resp = requests.post(f"http://127.0.0.1:{port}/init", json=mt5_config)
     try:
