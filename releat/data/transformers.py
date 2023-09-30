@@ -23,6 +23,9 @@ from tqdm import tqdm
 
 from releat.data.utils import get_feature_dir
 from releat.data.utils import split_timeframe
+from releat.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 @njit
@@ -399,7 +402,7 @@ def get_transform_params_for_one_feature_group(config, feat_group_ind):
     """
     feat_group = config.features[feat_group_ind]
     for feat_ind in range(len(feat_group.simple_features)):
-        print(f"Scaling group {feat_group_ind}, feature {feat_ind}")
+        logger.info(f"Scaling feature {feat_group_ind}-{feat_ind}")
         feature_dir = get_feature_dir(config, feat_group_ind, feat_ind)
         files = list(sorted(glob(f"{feature_dir}/raw_data/*")))
         dfs = None

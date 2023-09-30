@@ -376,6 +376,8 @@ def update_gym_env_hparam(config, client):
     )
 
     bins = config.gym_env.dict()
+    for k in bins:
+        assert len(k) <= 14, f"bin name {k} > 14 characters"
 
     incomplete_record = True
     max_data_ind = get_records_in_aerospike(config, client)
@@ -457,12 +459,12 @@ def populate_train_data(config, mode="update"):
 
     elif mode == "initialise":
         dts = config.raw_data.tick_file_dates
+        dts = list(sorted(dts))
         _ = build_features_by_dt(config, dts)
         _ = get_transform_params_for_all_features(config)
 
     for i in tqdm(range(len(dts))):
         dt = dts[i]
-        print(f"\n{dt}", end=" ")
 
         for symbol in symbols:
             _ = get_trade_price(config, symbol, dt)

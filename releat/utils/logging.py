@@ -32,7 +32,7 @@ class TyperLoggerHandler(logging.Handler):
         typer.secho(self.format(record), bg=bg, fg=fg)
 
 
-def get_logger(name, log_level=logging.DEBUG):
+def get_logger(name, log_level=logging.INFO):
     """Get logger."""
     formatter = logging.Formatter(
         "%(asctime)s  %(levelname)-5s  %(name)-5s  |  %(message)s",

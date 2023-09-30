@@ -90,19 +90,19 @@ class GymEnvConfig(BaseModel):
     # Gym hyperparameters to control trades and episode lengths
 
     # period in seconds for reloading training hyper paramemters from aerospike
-    hyparam_reload_interval_s: int
+    hp_reload_t_s: int
     # max steps per episode
     max_ep_step: int
     # min and max number of steps to hold a position
-    min_hold_time: int
-    max_hold_time: int
+    min_hold_t: int
+    max_hold_t: int
     # max trades per episode
     max_trades: int
     # stop value to close position in pips - must be negative number
     stop_val: int
     # min and max rewards for ending an episode
-    min_rewards: int
-    max_rewards: int
+    min_ep_r: int
+    max_ep_r: int
     # commission in pips per trade
     commission: float
     # penalty for each step (scaled to the gym reward)

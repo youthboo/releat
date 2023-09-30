@@ -29,14 +29,14 @@ agent_config = {
     },
     # gym env parameters
     "gym_env": {
-        "hyparam_reload_interval_s": 60,
+        "hp_reload_t_s": 60,
         "max_ep_step": 5000,
-        "max_hold_time": 360,
-        "min_hold_time": 7,
+        "max_hold_t": 360,
+        "min_hold_t": 7,
         "max_trades": 1000,
         "stop_val": -30.0,
-        "min_rewards": -1000.0,
-        "max_rewards": 1000.0,
+        "min_ep_r": -1000.0,
+        "max_ep_r": 1000.0,
         "commission": 0.4,
         "step_penalty": 0.0,
         "hold_penalty": 0,
@@ -70,7 +70,7 @@ agent_config = {
                 "timeout": 1000,  # milliseconds
             },
         },
-        "namespace": "prod",
+        "namespace": "dev",
     },
     "mt5": mt5_creds["metaquotes"]["demo"][0],
     # execution configs
