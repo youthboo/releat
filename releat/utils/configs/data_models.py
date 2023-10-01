@@ -93,6 +93,8 @@ class GymEnvConfig(BaseModel):
     hp_reload_t_s: int
     # max steps per episode
     max_ep_step: int
+    # skip steps to make rewards more frequent
+    skip_step: int
     # min and max number of steps to hold a position
     min_hold_t: int
     max_hold_t: int
@@ -131,6 +133,8 @@ class GymEnvConfig(BaseModel):
 
     # criteria to repeat the episode or sample starting point
 
+    # max times to repeat an episode that meets the following criteria
+    max_ep_repeats: int
     # trading win rate is below X%
     win_rate_t: float
     # maximum loss in one position

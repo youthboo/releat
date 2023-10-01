@@ -293,8 +293,8 @@ def load_config(agent_version, enrich_feat_spec=False, is_training=True):
     agent_config, feature_spec = configs
 
     if not is_training:
-        agent_config["is_training"] = False
-        agent_config["log_actions"] = True
+        agent_config["gym_env"]["is_training"] = False
+        agent_config["gym_env"]["log_actions"] = True
         agent_config["rl_rollouts"] = {
             "num_rollout_workers": 0,
             "num_envs_per_worker": 1,

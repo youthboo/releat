@@ -30,6 +30,7 @@ agent_config = {
     # gym env parameters
     "gym_env": {
         "hp_reload_t_s": 60,
+        "skip_step": 3,
         "max_ep_step": 5000,
         "max_hold_t": 360,
         "min_hold_t": 7,
@@ -57,6 +58,7 @@ agent_config = {
         "min_cum_r_t": -30.0,
         "osample_p": 0.99,
         "osample_num": 30_000,
+        "max_ep_repeats": 2,
         "mask_size_p": 0.5,
         "mask_dir_p": 0.05,
     },

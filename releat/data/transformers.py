@@ -564,10 +564,10 @@ def enrich_all_feature_configs(config):
             for t_ind in range(len(fc.transforms)):
                 fc = enrich_transform_config(config, feat_group_ind, feat_ind, t_ind)
 
-            config.features[feat_group_ind].features[feat_ind] = deepcopy(fc)
+            config.features[feat_group_ind].simple_features[feat_ind] = deepcopy(fc)
 
     # TODO possible remove this
-    config.rl_env["env"]["feature"] = config.features
+    # config.rl_env["gym_env"]["feature"] = config.features
     return config
 
 
