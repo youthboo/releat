@@ -54,9 +54,9 @@ class FxEnv(gym.Env):
         )
 
         # initialise action map
-        self.action_map = build_action_map(self.execution)
+        self.action_map = build_action_map(self.trader)
         # initialise empty array for portfolio
-        self.portfolio = build_pos_arrs(self.execution)
+        self.portfolio = build_pos_arrs(self.trader)
 
         for k, v in self.gym_env.dict().items():
             setattr(self, k, v)

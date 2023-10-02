@@ -75,8 +75,8 @@ agent_config = {
         "namespace": "dev",
     },
     "mt5": mt5_creds["metaquotes"]["demo"][0],
-    # execution configs
-    "execution": {
+    # trader configs
+    "trader": {
         "trade_mode": "live",
         "deviation": 5,
         "lot": 0.01,

@@ -19,7 +19,6 @@ from releat.utils.configs.constants import root_dir
 from releat.utils.configs.constants import trading_instruments
 from releat.utils.configs.data_models import AerospikeConfig
 from releat.utils.configs.data_models import AgentConfig
-from releat.utils.configs.data_models import ExecutionConfig
 from releat.utils.configs.data_models import FeatureGroupConfig
 from releat.utils.configs.data_models import GymEnvConfig
 from releat.utils.configs.data_models import MT5Config
@@ -28,6 +27,7 @@ from releat.utils.configs.data_models import PositionConfig
 from releat.utils.configs.data_models import RawDataConfig
 from releat.utils.configs.data_models import SimpleFeatureConfig
 from releat.utils.configs.data_models import SymbolSpec
+from releat.utils.configs.data_models import TraderConfig
 from releat.utils.configs.data_models import TransformerConfig
 
 
@@ -194,27 +194,25 @@ def make_agent_config(config, feature_spec):
 
     config["gym_env"] = GymEnvConfig(**config["gym_env"])
 
-    # Execution Config
-    execution_config = config["execution"]
+    # Trader Config
+    trader_config = config["trader"]
 
     symbol_index_map = {}
     for i, val in enumerate(config["symbol_info"]):
         symbol_index_map[val.symbol] = [i, val.pip]
 
-    for i in range(len(execution_config["portfolio"])):
-        tc = execution_config["portfolio"][i]
-        execution_config["portfolio"][i]["symbol_index"] = symbol_index_map[tc["symbol"]][
-            0
-        ]
-        execution_config["portfolio"][i]["pip_val"] = symbol_index_map[tc["symbol"]][1]
-        execution_config["portfolio"][i] = PositionConfig(
-            **execution_config["portfolio"][i],
+    for i in range(len(trader_config["portfolio"])):
+        tc = trader_config["portfolio"][i]
+        trader_config["portfolio"][i]["symbol_index"] = symbol_index_map[tc["symbol"]][0]
+        trader_config["portfolio"][i]["pip_val"] = symbol_index_map[tc["symbol"]][1]
+        trader_config["portfolio"][i] = PositionConfig(
+            **trader_config["portfolio"][i],
         )
-    config["execution"] = ExecutionConfig(**execution_config)
+    config["trader"] = TraderConfig(**trader_config)
 
     # Make observation space
     symbol_structure = get_feat_group_shape(feature_spec)
-    action_len = len(build_action_map(config["execution"]))
+    action_len = len(build_action_map(config["trader"]))
     p_make_box_space = partial(
         make_box_space,
         config["raw_data"].min_obs_val,

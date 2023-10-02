@@ -317,7 +317,7 @@ class PositionConfig(BaseModel):
     max_short: int
 
 
-class ExecutionConfig(BaseModel):
+class TraderConfig(BaseModel):
     """Trading config.
 
     Configurations when live or paper trading
@@ -376,7 +376,7 @@ class AgentConfig(BaseModel):
     # values and the individual gym environments reads off aerospike whilst training
     gym_env: GymEnvConfig
     # Config that ensembles multiple predictions
-    execution: ExecutionConfig
+    trader: TraderConfig
 
     # rllib specific parameters
     rl_train: dict
