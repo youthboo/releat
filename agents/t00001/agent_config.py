@@ -98,7 +98,16 @@ agent_config = {
         # ],
         "train_batch_size": 1440,
         "model": {
-            "custom_model_config": {},
+            "custom_model_config": {
+                # Depends on the architecture of agent_model.py
+                "encoding_size": 4,
+                "branch_layer_units": 4,
+                "gr_units": 4,
+                "gr_dropout": 1e-4,
+                "actor_layer_depth": 2,
+                "value_layer_depth": 2,
+                "final_layer_units": 4,
+            },
             "custom_model": "AgentModel",
         },
         # Impala Specific Configs
@@ -113,7 +122,7 @@ agent_config = {
     },
     "rl_rollouts": {
         # Specifying Rollout Workers
-        "num_rollout_workers": 1,
+        "num_rollout_workers": 2,
         "num_envs_per_worker": 2,
         "rollout_fragment_length": 60,
         "batch_mode": "truncate_episodes",

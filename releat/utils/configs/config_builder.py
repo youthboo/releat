@@ -246,8 +246,8 @@ def make_agent_config(config, feature_spec):
     config["rl_train"]["model"]["custom_model_config"]["input_shape"] = {
         **symbol_structure,
         "date_arr": (3,),
-        # TODO make the position value parametric - why is it different to above?
-        "pos_val": (len(execution_config["portfolio"]) * 4,),
+        # TODO make the position value parametric + different views of portfolio
+        "pos_val": (20, 2),
         "mask": (action_len,),
     }
 
@@ -256,7 +256,12 @@ def make_agent_config(config, feature_spec):
     return config
 
 
-def load_config(agent_version, enrich_feat_spec=False, is_training=True):
+def load_config(
+    agent_version,
+    enrich_feat_spec=False,
+    is_training=True,
+    load_model=False,
+):
     """Load configs.
 
     Loads the config depending on whether the config is used for training or inference
@@ -278,17 +283,15 @@ def load_config(agent_version, enrich_feat_spec=False, is_training=True):
     sys.path.insert(0, file_path)
     configs = []
 
-    for vals in [["agent_config", "agent_config"], ["feature_config", "feature_spec"]]:
-        module_name = vals[1]
-        file_name = vals[0]
+    for name in ["agent_config", "feature_config"]:
         spec = importlib.util.spec_from_file_location(
-            module_name,
-            f"{file_path}/{file_name}.py",
+            name,
+            f"{file_path}/{name}.py",
         )
         module = importlib.util.module_from_spec(spec)
-        sys.modules[module_name] = module
+        sys.modules[name] = module
         spec.loader.exec_module(module)
-        configs.append(getattr(module, module_name))
+        configs.append(getattr(module, name))
 
     agent_config, feature_spec = configs
 
@@ -315,4 +318,9 @@ def load_config(agent_version, enrich_feat_spec=False, is_training=True):
     if enrich_feat_spec:
         config = enrich_all_feature_configs(config)
 
-    return config
+    if load_model:
+        # TODO fix the hacky import
+        exec(f"from agents.{agent_version}.agent_model import AgentModel")
+        return config, eval("AgentModel")
+    else:
+        return config

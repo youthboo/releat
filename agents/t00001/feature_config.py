@@ -37,7 +37,7 @@ default_transforms = [
 ]
 
 
-feature_spec = [
+feature_config = [
     {
         "timeframe": "30s",
         "stack_axis": 1,

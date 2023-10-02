@@ -4,7 +4,7 @@ version = "0.0.1"
 description = ""
 authors = ["releat215 <releat215@gmail.com>"]
 readme = "README.md"
-packages = [{include = "releat"}]
+packages = [{include = "releat"},{include = "agents"}]
 
 [tool.poetry.scripts]
 releat = "releat.cli:app"

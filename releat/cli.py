@@ -9,6 +9,7 @@ from releat.utils.configs.config_builder import load_config
 from releat.utils.logging import get_logger
 from releat.utils.service_manager import start_services
 from releat.utils.service_manager import stop_services
+from releat.workflows.train_rl_agent import train_rl_agent
 
 app = typer.Typer()
 
@@ -39,6 +40,17 @@ def initialize_training_data(agent_version):
     """Initialise training data."""
     config = load_config(agent_version)
     _ = populate_train_data(config, mode="initialise")
+
+
+@app.command()
+def train(agent_version):
+    """Train RL agent."""
+    config, AgentModel = load_config(
+        agent_version,
+        enrich_feat_spec=True,
+        load_model=True,
+    )
+    train_rl_agent(config, AgentModel)
 
 
 if __name__ == "__main__":

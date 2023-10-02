@@ -11,6 +11,7 @@ import os
 import shlex
 import signal
 import subprocess
+from glob import glob
 
 import ray
 
@@ -66,7 +67,7 @@ def get_pids(name):
 
     """
     try:
-        return list(map(int, subprocess.check_output(["pidof", name]).split()))
+        return list(map(int, subprocess.check_output(["pgrep", name]).split()))
     except Exception:
         return []
 
@@ -149,6 +150,28 @@ def start_mt5_api(broker, symbol):
     logger.info(f"MT5 api started for {broker} {symbol}")
 
 
+def start_tensorboard():
+    """Start tensorboard.
+
+    Default address is:
+
+    """
+    folder = glob(f"{os.getcwd()}/data/agent/*")
+    cmd_str = "tensorboard --logdir_spec="
+    for f in folder:
+        cmd_str += f"{f.split('/')[-1]}:{f}/algo,"
+    cmd_str = cmd_str[:-1]
+    _ = start_process(cmd_str, blocking=False)
+    logger.info("tensorboard started")
+
+
+def stop_tensorboard():
+    """Stop tensorboard."""
+    pids = get_pids("tensorboard")
+    kill_processes(pids)
+    logger.info("tensorboard stopped")
+
+
 def stop_ray():
     """Stop ray."""
     _ = start_process("ray stop", blocking=False)
@@ -160,6 +183,7 @@ def start_services():
     start_aerospike()
     start_mt5()
     start_ray()
+    start_tensorboard()
 
 
 def stop_services():
@@ -167,3 +191,4 @@ def stop_services():
     stop_aerospike()
     stop_mt5()
     stop_ray()
+    stop_tensorboard()
