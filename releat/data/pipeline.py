@@ -29,7 +29,6 @@ from releat.data.simple.stats import get_skew
 from releat.data.simple.stats import one_hot_fx_flag
 from releat.data.transformers import apply_transform
 from releat.data.transformers import enrich_transform_config
-from releat.data.transformers import get_transform_params_for_all_features
 from releat.data.utils import get_feature_dir
 from releat.data.utils import get_records_in_aerospike
 from releat.data.utils import search_aerospike_for_dt
@@ -459,9 +458,9 @@ def populate_train_data(config, mode="update"):
 
     elif mode == "initialise":
         dts = config.raw_data.tick_file_dates
-        dts = list(sorted(dts))
-        _ = build_features_by_dt(config, dts)
-        _ = get_transform_params_for_all_features(config)
+        # dts = list(sorted(dts))
+        # _ = build_features_by_dt(config, dts)
+        # _ = get_transform_params_for_all_features(config)
 
     for i in tqdm(range(len(dts))):
         dt = dts[i]

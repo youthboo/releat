@@ -25,8 +25,8 @@ mt5_creds = {
         "demo": [
             {
                 "server": "MetaQuotes-Demo",
-                "login": 5017261249,
-                "password": "!7XtGwMs",
+                "login": 74538434,
+                "password": "Rl!cUf8h",
             },
         ],
     },

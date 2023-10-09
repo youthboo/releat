@@ -72,7 +72,11 @@ agent_config = {
                 "timeout": 1000,  # milliseconds
             },
         },
-        "namespace": "dev",
+        "namespace": "prod",
+    },
+    "redis": {
+        "host": "localhost",
+        "port": 6369,
     },
     "mt5": mt5_creds["metaquotes"]["demo"][0],
     # trader configs

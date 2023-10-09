@@ -25,6 +25,7 @@ from releat.utils.configs.data_models import MT5Config
 from releat.utils.configs.data_models import Paths
 from releat.utils.configs.data_models import PositionConfig
 from releat.utils.configs.data_models import RawDataConfig
+from releat.utils.configs.data_models import RedisConfig
 from releat.utils.configs.data_models import SimpleFeatureConfig
 from releat.utils.configs.data_models import SymbolSpec
 from releat.utils.configs.data_models import TraderConfig
@@ -169,6 +170,7 @@ def make_agent_config(config, feature_spec):
     config["paths"] = make_save_paths(config["agent_version"])
     config["aerospike"]["set_name"] = config["agent_version"]
     config["aerospike"] = AerospikeConfig(**config["aerospike"])
+    config["redis"] = RedisConfig(**config["redis"])
     config["mt5"] = MT5Config(**config["mt5"])
 
     config = {**config, **get_ticker_info(feature_spec, broker)}

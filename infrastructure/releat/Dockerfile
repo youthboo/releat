@@ -11,8 +11,6 @@ ENV MT5_PATH="/root/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe"
 
 ENV DISPLAY :0
 
-# Tensorflow version
-ENV TF_V="2.11.0"
 # Python version
 ENV PY_V="3.10.10"
 # Wine configs
@@ -23,7 +21,8 @@ ENV WINEPREFIX="/root/.wine"
 
 # Wine
 RUN apt-get update \
-	&& apt-get install -y wget gnupg2 dialog apt-utils software-properties-common curl make git tzdata \
+	&& apt-get install -y wget gnupg2 dialog apt-utils software-properties-common \
+	curl make git tzdata lsb-release gpg \
 	&& dpkg --add-architecture i386 \
 	&& mkdir -pm755 /etc/apt/keyrings \
 	&& wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
@@ -55,6 +54,13 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
 	&& eval "$(conda shell.bash hook)" \
 	&& curl -sSL https://install.python-poetry.org | python3 -
+
+# Install Redis
+RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg \
+	&& chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg \
+	&& echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list \
+	&& apt-get update \
+	&& apt-get install -y redis-stack-server
 
 # Aerospike server version
 ARG AS_V="6.4.0.1"

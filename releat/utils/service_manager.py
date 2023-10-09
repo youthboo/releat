@@ -7,17 +7,19 @@ Utility function for starting and stopping other open source applications:
 """
 from __future__ import annotations
 
+import logging
 import os
 import shlex
 import signal
 import subprocess
 from glob import glob
+from time import sleep
 
 import ray
 
 from releat.utils.logging import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, log_level=logging.INFO)
 
 
 def start_process(cmd_str, blocking=True):
@@ -128,6 +130,7 @@ def start_ray():
     """Start ray."""
     try:
         ray.init(address="auto")
+        assert ray.is_initialized()
         logger.info("Ray already started")
     except ConnectionError:
         import tensorflow as tf
@@ -139,6 +142,11 @@ def start_ray():
         cmd_str = f"ray start --head --num-cpus={num_cpus} --num-gpus={num_gpus} "
         logger.debug(cmd_str)
         _ = start_process(cmd_str, blocking=False)
+
+        sleep(15)
+        ray.init(address="auto")
+        assert ray.is_initialized(), "Ray failed to initialize"
+
         logger.info("Ray started")
 
 
@@ -150,10 +158,31 @@ def start_mt5_api(broker, symbol):
     logger.info(f"MT5 api started for {broker} {symbol}")
 
 
+def start_redis():
+    """Start redis.
+
+    Default address is localhost:6369
+
+    """
+    cmd_str = "redis-server infrastructure/redis/redis.conf"
+    logger.debug(cmd_str)
+    _ = start_process(cmd_str, blocking=False)
+    logger.info("redis started")
+
+
+def stop_redis():
+    """Start redis."""
+    cmd_str = "redis-cli -p 6369 shutdown"
+    logger.debug(cmd_str)
+    _ = start_process(cmd_str, blocking=False)
+    logger.info("redis started")
+
+
 def start_tensorboard():
     """Start tensorboard.
 
-    Default address is:
+    Default address is http://localhost:6006/
+
 
     """
     folder = glob(f"{os.getcwd()}/data/agent/*")
@@ -184,6 +213,7 @@ def start_services():
     start_mt5()
     start_ray()
     start_tensorboard()
+    start_redis()
 
 
 def stop_services():
@@ -192,3 +222,4 @@ def stop_services():
     stop_mt5()
     stop_ray()
     stop_tensorboard()
+    stop_redis()

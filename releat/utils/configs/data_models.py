@@ -188,6 +188,13 @@ class MT5Config(BaseModel):
     password: str
 
 
+class RedisConfig(BaseModel):
+    """Redis config."""
+
+    host: str
+    port: int
+
+
 class TransformerConfig(BaseModel):
     """Transformer config.
 
@@ -349,7 +356,8 @@ class AgentConfig(BaseModel):
 
     # RL algorithm
     rl_algorithm: str
-
+    # Redis
+    redis: RedisConfig
     # Symbol info
     # Currently only fxtm or ampfutures, in the future, ibkr and binance
     broker: str

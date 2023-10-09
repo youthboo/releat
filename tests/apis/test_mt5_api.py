@@ -11,7 +11,7 @@ from time import sleep
 import requests
 
 from releat.utils.configs.constants import mt5_api_port_map
-from releat.utils.configs.constants import mt_creds
+from releat.utils.configs.constants import mt5_creds
 from releat.utils.logging import get_logger
 from releat.utils.service_manager import start_mt5
 from releat.utils.service_manager import start_mt5_api
@@ -29,7 +29,7 @@ def test_mt5_api():
     sleep(5)
 
     broker = "metaquotes"
-    mt5_config = mt_creds[broker]["demo"][0]
+    mt5_config = mt5_creds[broker]["demo"][0]
     port = mt5_api_port_map[broker]["general"]
 
     resp = requests.post(f"http://127.0.0.1:{port}/init", json=mt5_config)
@@ -91,7 +91,11 @@ def test_mt5_api():
         "dt1": "2023-09-06 12:00:01.000",
     }
 
-    resp = requests.get(f"http://127.0.0.1:{port}/get_tick_data", json=d_request)
+    resp = requests.get(
+        f"http://127.0.0.1:{port}/get_tick_data",
+        json=d_request,
+        timeout=120,
+    )
     try:
         resp = resp.json()
         logger.debug(resp)

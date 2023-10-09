@@ -33,6 +33,13 @@ else
 
 fi
 
+# build and install the cli
+source activate ./.venv
+poetry build
+pip install --user ./dist/releat-0.0.1-py3-none-any.whl --force-reinstall --no-deps
+pip uninstall releat -y
+poetry install
+
 # See documentation for why it needs to be a fresh install each time
 # Installing wine python
 echo "installing wine python"
