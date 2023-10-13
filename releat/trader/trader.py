@@ -1,4 +1,13 @@
-"""Trader."""
+"""Trader.
+
+A lot of abstraction required to:
+- read multi-timeframe signals from redis
+- combine signal
+- scale lot size
+- manage risk
+- trade embargos for macro / session open / close
+
+"""
 from __future__ import annotations
 
 from time import sleep

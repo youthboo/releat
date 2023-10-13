@@ -55,7 +55,10 @@ class PortfolioManager:
         gym_portfolio[:, 6] = (1 - mt5_portfolio["type"] * 2).values
         # hold_time
         gym_portfolio[:, 9] = (
-            (pd.to_datetime(self.now) - mt5_portfolio["time_msc"]).dt.total_seconds()
+            (
+                pd.to_datetime(self.now).tz_localize(None)
+                - mt5_portfolio["time_msc"].dt.tz_localize(None)
+            ).dt.total_seconds()
             // 10
         ).values
         # current val

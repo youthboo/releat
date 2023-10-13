@@ -7,12 +7,12 @@ import os
 import pandas as pd
 import redis
 
-from releat.trader.feature_builder import FeatureBuilder
-from releat.trader.portfolio_manager import PortfolioManager
-from releat.trader.rl_actor import RLActor
-from releat.trader.tick_handler import TickHandler
+from releat.signals.feature_builder import FeatureBuilder
+from releat.signals.portfolio_manager import PortfolioManager
+from releat.signals.rl_actor import RLActor
+from releat.signals.tick_handler import TickHandler
 from releat.utils.configs.config_builder import load_config
-from releat.utils.service_manager import start_mt5_api
+from releat.workflows.service_manager import start_mt5_api
 
 
 class SignalGenerator:

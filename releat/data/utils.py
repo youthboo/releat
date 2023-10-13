@@ -19,7 +19,7 @@ from tqdm import tqdm
 
 from releat.utils.configs.constants import mt5_api_port_map
 from releat.utils.logging import get_logger
-from releat.utils.service_manager import start_mt5_api
+from releat.workflows.service_manager import start_mt5_api
 
 logger = get_logger(__name__)
 
