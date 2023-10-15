@@ -343,7 +343,7 @@ docker run \
     -v $(pwd):/releat \
     -e DISPLAY \
     -it \
-    --name test \
+    --name releat \
     --gpus=all \
     releat215/releat:1.0 \
     -c './releat/infrastructure/releat/entrypoint.sh && cd releat && /bin/bash'
