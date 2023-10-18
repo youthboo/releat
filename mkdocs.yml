@@ -4,6 +4,8 @@ site_author: releat215
 copyright: |
   &copy; releat215@gmail.com
 docs_dir: docs/
+repo_url: https://github.com/releat215/releat
+repo_name: releat215/releat
 
 
 plugins:
@@ -61,9 +63,10 @@ theme:
   # Table of Contents
   - toc.follow
 
-  # icon:
-  #   logo: 'images/logo-1.png'
-  #   repo: 'images/logo-1.png'
+  icon:
+    repo: 'fontawesome/brands/github'
+    logo: 'images/logo-1.png'
+
 
 
   #admonition:

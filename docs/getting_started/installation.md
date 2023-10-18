@@ -41,7 +41,7 @@ docker pull releat215/releat:1.0
 ```
 
 Note:
-- Detailed notes on the components of the DockerFile are in the [developer notes](developer_notes/releat_dockerfile.md)
+- Detailed notes on the components of the DockerFile are in the [development notes](../development_notes/releat_dockerfile.md)
 
 ### 4) Run docker container
 
@@ -83,7 +83,7 @@ docker exec -it releat /bin/bash
 ```
 
 Note:
-- Detailed notes on the purpose of each argument can be found in the [developer notes](developer_notes/releat_dockerfile.md#docker-run)
+- Detailed notes on the purpose of each argument can be found in the [development notes](../development_notes/releat_dockerfile.md#docker-run)
 - When running python scripts, make sure to navigate to correct folder and activate the environment: `cd /workspaces/releat && source activate ./.venv`
 
 ### 5) Update CLI
