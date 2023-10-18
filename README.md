@@ -7,6 +7,7 @@ DISCALIMER: The information provided herein is for educational and informational
 ## Vision
 
 To build a collaborative community where software engineers, data scientists, RL researchers, quants and finance and economic experts can share knowledge. This framework covers the end-to-end process including:
+
 - extracting data from a MetaTrader5
 - building custom features from tick data
 - gym environment factory to simulate the trading environment
@@ -15,6 +16,7 @@ To build a collaborative community where software engineers, data scientists, RL
 - executing trades
 
 In progress:
+
 - additional platforms including Interactive Brokers and Binance
 - custom features for candle data and macroeconomic events
 - incoporate other deep learning frameworks such as PyTorch
@@ -22,16 +24,12 @@ In progress:
 - examples for deployment to cloud to AWS and GCP
 - monitoring and observability
 
-## Key features:
+## Key features
 
 - A single container for developing, training, deploying and trading for MetaTrader5 for Linux and Windows (via WSL)
-
 - A simple command line interface to orchestrate the end-to-end process.
-
 - Configuration files that define each step for a specific agent. These are structured to facilitate rapid experimentation and easy integration with Ray's Tune module. types, etc.
-
-- Focuses on Medium Frequency Trading strategies (>1 second and <1 day) using tick data as the input for each step. General latency of the system is ~1-3s depending on the complexity of feature engineering and model and resources available.
-
+- Focuses on Medium Frequency Trading strategies (>1 second and <1 day) using tick data as the input for each step. General latency of the system is ~0.1-3s depending on the complexity of feature engineering and model and resources available.
 - In contrast to most other python packages that focus on a deep coverage on one part of the algorithmic trading process, this framework focuses on rapid experimentation lifecycles from idea to deploying and tracking paper trades. [FinRL](https://github.com/AI4Finance-Foundation/FinRL) and their associated repos are the most similar. The key difference is that this framework focuses on Forex data.
 
 ## Prerequisites
@@ -55,7 +53,7 @@ cd releat
 
 ### 3) Download and run prebuilt docker container
 
-Instructions to build to container from the DockerFile or develop using VSCode's dev containers can be found in the [developer notes](docs/developer_notes/releat_dockerfile.md). Code is containerised to provide consistency (especially when setting up MT5 in linux), easy deployment and scalability. To build the container:
+Instructions to build to container from the DockerFile or develop using VSCode's dev containers can be found in the [development notes](docs/development_notes/releat_dockerfile.md). Code is containerised to provide consistency (especially when setting up MT5 in linux), easy deployment and scalability. To build the container:
 
 ```
 docker build -t releat -f ./infrastructure/releat/Dockerfile .
@@ -157,7 +155,7 @@ releat launch-trader
 
 ## Contributing
 
-Actively looking for contributors and collaborators to make this project even better! Code quality is average and improvements are in progress. Please:
+Actively looking for contributors and collaborators to make this project even better! Please:
 
 1) Create an issue
 
