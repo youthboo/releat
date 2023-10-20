@@ -40,11 +40,11 @@ class MT5Connector:
     def initialize(self):
         """Initialize and log into MT5."""
         mt5_init = {}
-        if hasattr(self, "mt5_path"):
-            mt5_init["path"] = self.mt5_path
+        mt5_init["path"] = self.path
         mt5_init["login"] = self.login
         mt5_init["server"] = self.server
         mt5_init["password"] = self.password
+        mt5_init["portable"] = True
 
         if not mt5.initialize(**mt5_init, timeout=10000):
             mt5.shutdown()
@@ -56,7 +56,7 @@ class MT5Connector:
         """Check if MT5 needs to be reset."""
         t_info = mt5.terminal_info()
         if t_info is None:
-            return self.initialize()
+            return False, self.initialize()
         else:
             return True, t_info
 

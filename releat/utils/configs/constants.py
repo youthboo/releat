@@ -16,19 +16,33 @@ mt5_api_port_map = {
     "metaquotes": {
         "general": 2000,
         "EURUSD": 2001,
+        "ND100m": 2002,
+        "XAUUSD": 2003,
+    },
+    "metaquotes2": {
+        "general": 2100,
+        "AUDJPY": 2101,
+        "USDJPY": 2102,
     },
 }
 
 
 mt5_creds = {
     "metaquotes": {
-        "demo": [
-            {
-                "server": "MetaQuotes-Demo",
-                "login": 74538434,
-                "password": "Rl!cUf8h",
-            },
-        ],
+        "demo": {
+            "path": f"{root_dir}/data/platforms/mt5/0/MetaTrader 5/terminal64.exe",
+            "server": "MetaQuotes-Demo",
+            "login": 74538434,
+            "password": "Rl!cUf8h",
+        },
+    },
+    "metaquotes2": {
+        "demo": {
+            "path": f"{root_dir}/data/platforms/mt5/1/MetaTrader 5/terminal64.exe",
+            "server": "MetaQuotes-Demo",
+            "login": 74538434,
+            "password": "Rl!cUf8h",
+        },
     },
 }
 
@@ -59,6 +73,8 @@ trading_instruments = {
             "currency": "USD",
             "commission": 4.0,
         },
+    },
+    "metaquotes2": {
         "AUDJPY": {
             "pip": 1e-2,
             "pip_val": 10_000,

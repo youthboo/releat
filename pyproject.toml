@@ -52,7 +52,7 @@ optional = true
 [tool.poetry.group.mt5.dependencies]
 MetaTrader5 = "^5.0"
 pandas = "^1.5"
-flask = "^2.3.3"
+flask = {extras=["async"], version="^2.3.3" }
 
 [tool.poetry.group.rl]
 optional = true
