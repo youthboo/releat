@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../../getting_started/basic_usage/">
       
       
-        <link rel="next" href="../../examples/mt5-api-data-extract/">
+        <link rel="next" href="../../development_notes/releat_dockerfile/">
       
       
       <link rel="icon" href="../../images/logo-1.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Basic Usage - ReLeAT</title>
+        <title>Extracting MT5 data - ReLeAT</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#basic-usage" class="md-skip">
+        <a href="#data-extraction-via-mt5-api" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Basic Usage
+              Extracting MT5 data
             
           </span>
         </div>
@@ -229,13 +229,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../installation/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../getting_started/installation/" class="md-tabs__link">
           
   
     
@@ -251,11 +249,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../examples/mt5-api-data-extract/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
     
@@ -378,8 +378,6 @@
       
   
   
-    
-  
   
     
     
@@ -390,13 +388,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
@@ -409,7 +409,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -422,7 +422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../getting_started/installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -435,6 +435,73 @@
   
 
               
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/basic_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -455,7 +522,7 @@
           
   
   <span class="md-ellipsis">
-    Basic Usage
+    Extracting MT5 data
   </span>
   
 
@@ -466,7 +533,7 @@
         
   
   <span class="md-ellipsis">
-    Basic Usage
+    Extracting MT5 data
   </span>
   
 
@@ -488,43 +555,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-connect-to-running-docker-container" class="md-nav__link">
-    1) Connect to running docker container
+  <a href="#important-start-mt5-apis" class="md-nav__link">
+    IMPORTANT - start mt5 apis
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-start-services" class="md-nav__link">
-    2) Start services
+  <a href="#compare-data-extraction-speed" class="md-nav__link">
+    Compare data extraction speed
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-build-training-data" class="md-nav__link">
-    3) Build training data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-train-model" class="md-nav__link">
-    4) Train model
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-generate-signal" class="md-nav__link">
-    5) Generate signal
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-launch-trader" class="md-nav__link">
-    6) Launch trader
+  <a href="#clean-processes-by-deleting-mt5-instances-and-apis" class="md-nav__link">
+    Clean processes by deleting MT5 instances and apis
   </a>
   
 </li>
@@ -533,73 +579,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Examples
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../examples/mt5-api-data-extract/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Extracting MT5 data
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -725,43 +704,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-connect-to-running-docker-container" class="md-nav__link">
-    1) Connect to running docker container
+  <a href="#important-start-mt5-apis" class="md-nav__link">
+    IMPORTANT - start mt5 apis
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-start-services" class="md-nav__link">
-    2) Start services
+  <a href="#compare-data-extraction-speed" class="md-nav__link">
+    Compare data extraction speed
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-build-training-data" class="md-nav__link">
-    3) Build training data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-train-model" class="md-nav__link">
-    4) Train model
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-generate-signal" class="md-nav__link">
-    5) Generate signal
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-launch-trader" class="md-nav__link">
-    6) Launch trader
+  <a href="#clean-processes-by-deleting-mt5-instances-and-apis" class="md-nav__link">
+    Clean processes by deleting MT5 instances and apis
   </a>
   
 </li>
@@ -784,101 +742,146 @@
   
 
 
-<h1 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h1>
-<p>This is an example of how to train and deploy a simple agent that trade EURUSD in a metaquotes demo account. The configurations for this agent can be found in <code>agents/t00001</code> and a more detailed explanation be found in the <a href="../configuration/">configuration documentation</a>.</p>
-<p>Note:
-- example only works Monday to Friday GMT+2/3 due to metaquotes not allowing data extract or trades on weekend demo accounts.
-- Steps 4+ are blocking processes, so open a new terminal to run in parallel.</p>
-<h3 id="1-connect-to-running-docker-container">1) Connect to running docker container<a class="headerlink" href="#1-connect-to-running-docker-container" title="Permanent link">&para;</a></h3>
-<p>If opening a new terminal, connect interactively to the running docker container:</p>
-<div class="codehilite"><pre><span></span><code>docker exec -it releat /bin/bash
+<h1 id="data-extraction-via-mt5-api">Data extraction via MT5 Api<a class="headerlink" href="#data-extraction-via-mt5-api" title="Permanent link">&para;</a></h1>
+<p>Jupyter notebook: examples/mt5-api-data-extract.ipynb</p>
+<p>Each trading symbol has its own process for the wine mt5 api. This is so that in production, we're able to reduce latency (at the cost of higher memory consumption) by pulling from one or more brokers in parallel.</p>
+<h3 id="important-start-mt5-apis">IMPORTANT - start mt5 apis<a class="headerlink" href="#important-start-mt5-apis" title="Permanent link">&para;</a></h3>
+<p>Before running this notebooks, first launch the mt5 apis from the terminal using the command: releat launch-all-mt5-apis</p>
+<p>Launching wine processes from jupyter notebooks is unstable and mostly fails to start</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">releat.utils.configs.constants</span> <span class="kn">import</span> <span class="n">mt5_api_port_map</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span> <span class="nn">releat.workflows.service_manager</span> <span class="kn">import</span> <span class="n">kill_processes</span><span class="p">,</span> <span class="n">get_pids</span><span class="p">,</span> <span class="n">stop_mt5</span>
+<span class="kn">from</span> <span class="nn">releat.utils.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Note:
-- This assumes that the running container is called <code>releat</code></p>
-<h3 id="2-start-services">2) Start services<a class="headerlink" href="#2-start-services" title="Permanent link">&para;</a></h3>
-<p>Starts services necessary to train, deploy and monitor the reinforcement
-learning trading agent:
-- Aerospike: In-memory database to store features and hyperparameters
-- Ray: Manages compute and provides RL training and inference logic
-- MT5: Download data and trade for forex and futures (depending on broker)
-- Tensorboard: Monitor RL training progress
-- Redis: In memory cache for storing RL predictions</p>
-<p>The <code>launch-mt5-api</code> command launched a flask api  in wine to interact with MetaTrader5. It is broker specific because in the future, this architecture should allow for multi-broker strategies.</p>
-<p>IMPORTANT: If it is the first time starting up the docker container, or if it has been rebuilt, log in the your MT5 account manually and click the allow autotrading button. If not, steps 3+ will not work.</p>
-<div class="codehilite"><pre><span></span><code>releat start
-releat launch-mt5-api metaquotes general
+<div class="codehilite"><pre><span></span><code><span class="n">broker_symbol_ports</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">broker</span><span class="p">,</span> <span class="n">port_map</span> <span class="ow">in</span> <span class="n">mt5_api_port_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">port_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://127.0.0.1:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/healthcheck&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;healthcheck </span><span class="si">{</span><span class="n">broker</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2"> on port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2"> success&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">symbol</span> <span class="o">!=</span> <span class="s2">&quot;general&quot;</span><span class="p">:</span>
+                <span class="n">broker_symbol_ports</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">broker</span><span class="p">,</span><span class="n">symbol</span><span class="p">,</span><span class="n">port</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Check that mt5 apis have been started - See the first markdown cell of this notebook&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Note:
-- A demo metaquotes account can be found in the <code>releat/utils/configs/constants.py</code>. Alternatively you can create new credentials from the <a href="https://trade.metatrader5.com/terminal">metaquotes website</a></p>
-<h3 id="3-build-training-data">3) Build training data<a class="headerlink" href="#3-build-training-data" title="Permanent link">&para;</a></h3>
-<p>Build the features defined by the <code>feature_config.py</code> script and upload to Aerospike.</p>
-<div class="codehilite"><pre><span></span><code>releat build-train-data t00001
+<div class="codehilite"><pre><span></span><code>[94m2023-10-20 13:39:11,620  INFO   __main__  |  healthcheck metaquotes general on port 2000 success[0m
+[94m2023-10-20 13:39:11,632  INFO   __main__  |  healthcheck metaquotes EURUSD on port 2001 success[0m
+[94m2023-10-20 13:39:11,645  INFO   __main__  |  healthcheck metaquotes ND100m on port 2002 success[0m
+[94m2023-10-20 13:39:11,657  INFO   __main__  |  healthcheck metaquotes XAUUSD on port 2003 success[0m
+[94m2023-10-20 13:39:11,672  INFO   __main__  |  healthcheck metaquotes2 general on port 2100 success[0m
+[94m2023-10-20 13:39:11,685  INFO   __main__  |  healthcheck metaquotes2 AUDJPY on port 2101 success[0m
+[94m2023-10-20 13:39:11,698  INFO   __main__  |  healthcheck metaquotes2 USDJPY on port 2102 success[0m
 </code></pre></div>
 
-<p>The <code>t00001</code> config creates two feature groups:
-- one group for 30s timeframe
-- one group for 5m timeframe</p>
-<p>The features within the 30s timeframe feature group include:
-- average price
-- modified one-hot encoding of the different flag types
-- average spread</p>
-<p>The features within the 5m timeframe include:
-- average price
-- min price
-- max price
-- gradient of ticks</p>
-<p>Features are built from tick data and are scaled by:
-- clipping by percentile
-- power transformer
-- linear scaling
-- clipping for extreme values</p>
-<p>These features are then updated to Aerospike where the key is: <code>(&lt;environment&gt;, &lt;agent_version&gt;, &lt;integer&gt;)</code>, i.e. <code>('prod','t00001',10000)</code>
-The value for this example is:</p>
-<div class="codehilite"><pre><span></span><code>{
-    &quot;date&quot;: str,
-    &quot;30s&quot;: list,
-    &quot;5m&quot;: list,
-    &quot;price&quot;: list
-}
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">broker_symbol_port</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple function to download data&quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">broker_symbol_port</span>
+
+    <span class="n">d_request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;symbol&quot;</span><span class="p">:</span> <span class="n">symbol</span><span class="p">,</span>
+        <span class="s2">&quot;dt0&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-09-06 12:00:00.000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dt1&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-09-06 13:01:00.000&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;http://127.0.0.1:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/get_tick_data&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="n">d_request</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
 
-<p>The price here indicates the bid-ask for EURUSD for the next 2s. It is not as used an input into the training model, rather it is used to simulate slippage in the gym environment.</p>
-<h3 id="4-train-model">4) Train model<a class="headerlink" href="#4-train-model" title="Permanent link">&para;</a></h3>
-<p>In this step, the RL model is defined in <code>agent_model.py</code>:
-- a class that extend Ray's rllib's Tensorflow model
-- simple example of gated residual network
-- allows arbitrary dict inputs
-- allows action masking (i.e. to block bad actions, i.e. a close action if no positions are open)</p>
-<p>The training process is defined in <code>agent_config.py</code>:
-- <code>gym_env</code> key defines the gym environments hyperparameters and is uploaded to aerospike so it can be dynamically changed during training (if necessary). It also define training hyperparameters such as number of episodes and training frequency.
-- keys with the prefix <code>rl_</code> map directly to Ray's rllib's <a href="https://docs.ray.io/en/master/rllib/rllib-training.html#configuring-rllib-algorithms">training configurations</a></p>
-<div class="codehilite"><pre><span></span><code>releat train t00001
+<div class="codehilite"><pre><span></span><code><span class="c1"># show example output of function</span>
+<span class="n">get_data</span><span class="p">(</span><span class="n">broker_symbol_ports</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:</span><span class="mi">3</span><span class="p">]</span>
 </code></pre></div>
 
-<p>Note:
-- If you do not have a gpu, in the <code>agent_config.py</code> file, change <code>agent_config['rl_resources']['num_gpus]</code> from 1 to 0.
-- Model performance can be tracked in tensorboard, where the default address is http://localhost:6006/
-- Resource usage can be tracked by ray dashboard</p>
-<h3 id="5-generate-signal">5) Generate signal<a class="headerlink" href="#5-generate-signal" title="Permanent link">&para;</a></h3>
-<p>Using the artifacts generated by the training process, this generate signal process is deployed to continuously:
-- extract data from MT5 - note if first run in a fresh install, manually log into MT5 account and click on the enable algortrading button.
-- build features
-- makes predictions by invoking the RL agent
-- pushes predictions to redis
-- loads the latest checkpoint</p>
-<p>The frequency of the prediction is controlled by the configs set in <code>agent_config.py</code></p>
-<div class="codehilite"><pre><span></span><code>releat generate-signal t00001
+<div class="codehilite"><pre><span></span><code>[{&#39;ask&#39;: 1.07341,
+  &#39;bid&#39;: 1.07341,
+  &#39;flags&#39;: 130,
+  &#39;last&#39;: 0.0,
+  &#39;time_msc&#39;: 1694001600087,
+  &#39;volume&#39;: 0,
+  &#39;volume_real&#39;: 0.0},
+ {&#39;ask&#39;: 1.0734,
+  &#39;bid&#39;: 1.0734,
+  &#39;flags&#39;: 134,
+  &#39;last&#39;: 0.0,
+  &#39;time_msc&#39;: 1694001600455,
+  &#39;volume&#39;: 0,
+  &#39;volume_real&#39;: 0.0},
+ {&#39;ask&#39;: 1.07341,
+  &#39;bid&#39;: 1.07341,
+  &#39;flags&#39;: 134,
+  &#39;last&#39;: 0.0,
+  &#39;time_msc&#39;: 1694001601207,
+  &#39;volume&#39;: 0,
+  &#39;volume_real&#39;: 0.0}]
 </code></pre></div>
 
-<h3 id="6-launch-trader">6) Launch trader<a class="headerlink" href="#6-launch-trader" title="Permanent link">&para;</a></h3>
-<p>The trader is agent version agnostic (for now) and is deployed to:
-- gets the predictions from redis (in the future it will have capability to aggregate predictions from multiple different RL agents)
-- applies some risk logic (such as lot size scaling)
-- applies other operational logic (i.e. minimum position hold time, forced close at session close, etc.)
-- executes open or close actions for long or short positions</p>
-<div class="codehilite"><pre><span></span><code>releat launch-trader
+<h3 id="compare-data-extraction-speed">Compare data extraction speed<a class="headerlink" href="#compare-data-extraction-speed" title="Permanent link">&para;</a></h3>
+<p>When run in parallel, the time taken to download data is at least 2x as fast as compared to in sequence. Note results will vary depending on internet speed and whether results are cached</p>
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">broker_symbol_port</span> <span class="ow">in</span> <span class="n">broker_symbol_ports</span><span class="p">:</span>
+    <span class="n">get_data</span><span class="p">(</span><span class="n">broker_symbol_port</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>388 ms ± 31.1 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_data</span><span class="p">,</span><span class="n">broker_symbol_ports</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>194 ms ± 17.7 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</code></pre></div>
+
+<h3 id="clean-processes-by-deleting-mt5-instances-and-apis">Clean processes by deleting MT5 instances and apis<a class="headerlink" href="#clean-processes-by-deleting-mt5-instances-and-apis" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># kill mt5</span>
+<span class="n">stop_mt5</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[94m2023-10-20 13:40:23,925  INFO   releat.workflows.service_manager  |  process id: 37361 killed[0m
+[94m2023-10-20 13:40:23,927  INFO   releat.workflows.service_manager  |  process id: 37975 killed[0m
+[94m2023-10-20 13:40:23,929  INFO   releat.workflows.service_manager  |  MetaTrader5 stopped: process ids [37361, 37975] killed[0m
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># kill mt5 api process ids</span>
+<span class="n">pids</span> <span class="o">=</span> <span class="n">get_pids</span><span class="p">(</span><span class="s2">&quot;wineserver&quot;</span><span class="p">)</span>
+<span class="n">kill_processes</span><span class="p">(</span><span class="n">pids</span><span class="p">)</span>
+
+
+<span class="c1"># kill wine processes</span>
+<span class="n">pids</span> <span class="o">=</span> <span class="n">get_pids</span><span class="p">(</span><span class="s2">&quot;python.exe&quot;</span><span class="p">)</span>
+<span class="n">kill_processes</span><span class="p">(</span><span class="n">pids</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[94m2023-10-20 13:40:23,955  INFO   releat.workflows.service_manager  |  process id: 37198 killed[0m
+[94m2023-10-20 13:40:23,973  INFO   releat.workflows.service_manager  |  process id: 37255 killed[0m
+[94m2023-10-20 13:40:23,977  INFO   releat.workflows.service_manager  |  process id: 37320 killed[0m
+[94m2023-10-20 13:40:23,979  INFO   releat.workflows.service_manager  |  process id: 37450 killed[0m
+[94m2023-10-20 13:40:23,980  INFO   releat.workflows.service_manager  |  process id: 37532 killed[0m
+[94m2023-10-20 13:40:23,986  INFO   releat.workflows.service_manager  |  process id: 37578 killed[0m
+[94m2023-10-20 13:40:23,988  INFO   releat.workflows.service_manager  |  process id: 37656 killed[0m
+[94m2023-10-20 13:40:23,989  INFO   releat.workflows.service_manager  |  process id: 37715 killed[0m
+[94m2023-10-20 13:40:23,990  INFO   releat.workflows.service_manager  |  process id: 37796 killed[0m
+[94m2023-10-20 13:40:23,991  INFO   releat.workflows.service_manager  |  process id: 37843 killed[0m
+[94m2023-10-20 13:40:23,992  INFO   releat.workflows.service_manager  |  process id: 37927 killed[0m
+[94m2023-10-20 13:40:23,993  INFO   releat.workflows.service_manager  |  process id: 38063 killed[0m
+[94m2023-10-20 13:40:23,993  INFO   releat.workflows.service_manager  |  process id: 38207 killed[0m
+[94m2023-10-20 13:40:23,994  INFO   releat.workflows.service_manager  |  process id: 38308 killed[0m
+[94m2023-10-20 13:40:23,995  INFO   releat.workflows.service_manager  |  process id: 38405 killed[0m
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>
 </code></pre></div>
 
 
