@@ -44,7 +44,7 @@ action_labels = make_action_labels(config, action_map, gym_portfolio)
 # TODO tidy up logic
 # load broker information for trading
 broker = "metaquotes"
-mt5_config = mt5_creds[broker]["demo"][0]
+mt5_config = mt5_creds[broker]["demo"]
 port = mt5_api_port_map[broker]["general"]
 
 # set trade lot base size - some agent can buy or sell multiple base lots

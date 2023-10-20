@@ -10,13 +10,18 @@ from __future__ import annotations
 import logging
 import os
 import shlex
+import shutil
 import signal
 import subprocess
 from glob import glob
+from pathlib import Path
 from time import sleep
 
 import ray
+import requests
 
+from releat.utils.configs.constants import mt5_api_port_map
+from releat.utils.configs.constants import mt5_creds
 from releat.utils.logging import get_logger
 
 logger = get_logger(__name__, log_level=logging.INFO)
@@ -89,8 +94,8 @@ def kill_processes(pids):
     """
     if len(pids) > 0:
         for pid in pids:
-            os.kill(pid, signal.SIGTERM)
-            logger.debug(f"process id: {pid} killed")
+            os.killpg(os.getpgid(pid), signal.SIGTERM)
+            logger.info(f"process id: {pid} killed")
 
 
 def start_aerospike():
@@ -111,6 +116,15 @@ def stop_aerospike():
     logger.info("Aerospike stopped")
 
 
+def stop_python():
+    """Stop Python."""
+    pids = get_pids("python.exe")
+    kill_processes(pids)
+    pids = get_pids("python")
+    kill_processes(pids)
+    logger.info("Python stopped")
+
+
 def start_mt5():
     """Start MetaTrader5."""
     cmd_str = 'wine "/root/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe"'
@@ -123,7 +137,7 @@ def stop_mt5():
     """Stop MetaTrader5."""
     pids = get_pids("terminal64.exe")
     kill_processes(pids)
-    logger.info("MetaTrader5 stopped")
+    logger.info(f"MetaTrader5 stopped: process ids {pids} killed")
 
 
 def start_ray():
@@ -155,7 +169,32 @@ def start_mt5_api(broker, symbol):
     cmd_str = f"wine poetry run python ./apis/mt5.py -b {broker} -s {symbol}"
     logger.debug(cmd_str)
     _ = start_process(cmd_str, blocking=False)
+    mt5_config = mt5_creds[broker]["demo"]
+
+    mt5_folder = str(Path(mt5_config["path"]).parents[1])
+
+    # Copy from 0 to N (need a terminal per broker)
+    if not os.path.isdir(mt5_folder):
+        mt5_src = str(Path(mt5_folder).parent) + "/0"
+        _ = shutil.copytree(mt5_src, mt5_folder)
+
+    port = mt5_api_port_map[broker][symbol]
+    connected = False
+    while not connected:
+        try:
+            _ = requests.post(f"http://127.0.0.1:{port}/init", json=mt5_config)
+            _ = requests.get(f"http://127.0.0.1:{port}/healthcheck").json()
+            connected = True
+        except Exception:
+            sleep(1)
     logger.info(f"MT5 api started for {broker} {symbol}")
+
+
+def start_all_mt5_apis():
+    """Start MetaTrader5 api."""
+    for broker, port_map in mt5_api_port_map.items():
+        for symbol, _ in port_map.items():
+            _ = start_mt5_api(broker, symbol)
 
 
 def start_redis():
@@ -210,7 +249,6 @@ def stop_ray():
 def start_services():
     """Start all services."""
     start_aerospike()
-    start_mt5()
     start_ray()
     start_tensorboard()
     start_redis()

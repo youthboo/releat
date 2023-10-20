@@ -64,7 +64,7 @@ class TickHandler:
 
         # TODO improve how we pass through which api to start
         # individual apis per symbol?
-        self.mt5_config = mt5_creds[self.config.broker]["demo"][0]
+        self.mt5_config = mt5_creds[self.config.broker]["demo"]
         self.port = mt5_api_port_map[self.config.broker][symbol]
         self.data_api = f"http://127.0.0.1:{self.port}"
         _ = requests.post(f"{self.data_api}/init", json=self.mt5_config)

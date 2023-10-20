@@ -45,11 +45,11 @@ def initialise_connector():
 def healthcheck():
     """Checks health of mt5."""
     global mt5c
-    status = mt5c.check_mt5()
+    status, tinfo = mt5c.check_mt5()
     if status:
-        return {"status": "ok"}, 200
+        return tinfo._asdict()
     else:
-        return {"status": "fail"}, 200
+        return str(tinfo)
 
 
 @app.route("/open", methods=["POST"])

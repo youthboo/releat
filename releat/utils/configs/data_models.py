@@ -186,6 +186,7 @@ class MT5Config(BaseModel):
     server: str
     login: int
     password: str
+    path: str
 
 
 class RedisConfig(BaseModel):

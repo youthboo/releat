@@ -1,6 +1,8 @@
 """CLI for ReLeAT."""
 from __future__ import annotations
 
+from time import sleep
+
 import typer
 
 from releat.data.pipeline import populate_train_data
@@ -34,6 +36,13 @@ def stop():
 def launch_mt5_api(broker, symbol):
     """Start mt5 api for one broker."""
     sm.start_mt5_api(broker, symbol)
+
+
+@app.command()
+def launch_all_mt5_apis():
+    """Starts mt5 apis for all brokers."""
+    sm.start_all_mt5_apis()
+    sleep(30)
 
 
 @app.command()

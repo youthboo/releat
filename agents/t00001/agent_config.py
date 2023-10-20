@@ -78,7 +78,7 @@ agent_config = {
         "host": "localhost",
         "port": 6369,
     },
-    "mt5": mt5_creds["metaquotes"]["demo"][0],
+    "mt5": mt5_creds["metaquotes"]["demo"],
     # trader configs
     "trader": {
         "trade_mode": "live",
