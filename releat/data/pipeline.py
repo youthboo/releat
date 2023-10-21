@@ -22,6 +22,8 @@ from releat.data.cleaning import get_trade_price
 from releat.data.cleaning import group_tick_data_by_time
 from releat.data.cleaning import load_raw_tick_data
 from releat.data.simple.stats import calc_gradient_feature
+from releat.data.simple.stats import calc_inflection_feature
+from releat.data.simple.stats import calc_peak_trough_gradient_feature
 from releat.data.simple.stats import get_max
 from releat.data.simple.stats import get_mean
 from releat.data.simple.stats import get_min
@@ -50,6 +52,7 @@ def make_feature(df_group, config, feat_group_ind, feat_ind, fname=None, mode="b
             - is saved locally so that data can be easily accessed / rebuilt
 
     #TODO add checks to ensure fname is unique
+    #TODO convert to feature factory class
 
     Args:
         df_group (pl.GroupBy):
@@ -97,6 +100,10 @@ def make_feature(df_group, config, feat_group_ind, feat_ind, fname=None, mode="b
             df = get_skew(df_group, fc, pip)
         case "grad":
             df = calc_gradient_feature(df_group, fc, pip)
+        case "grad_with_peak_trends":
+            df = calc_peak_trough_gradient_feature(df_group, fc, pip)
+        case "inflection":
+            df = calc_inflection_feature(df_group, fc, pip)
 
     df = df.with_columns(pl.col("time_msc").dt.cast_time_unit("ns"))
 
@@ -130,7 +137,7 @@ def make_feature(df_group, config, feat_group_ind, feat_ind, fname=None, mode="b
 def build_features_by_dt(config, dts):
     """Build features by dt.
 
-    #TODO parallelisation?
+    #TODO improve parallelisation?
 
     When the dataset is initially being built, features are built month by month to
     conserve RAM
