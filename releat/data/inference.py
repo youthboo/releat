@@ -18,8 +18,8 @@ from releat.data.cleaning import load_raw_tick_data
 from releat.data.pipeline import make_feature
 from releat.data.transformers import apply_transform
 from releat.data.transformers import enrich_transform_config
-from releat.data.utils import ceil_timestamp
 from releat.data.utils import split_timeframe
+from releat.utils.time import ceil_timestamp
 
 
 def get_feature_time_range_in_seconds(trade_timeframe, feature_timeframe, feat_len):
@@ -122,6 +122,7 @@ def init_feature_dict(config, tick_data, now):
         for feat_ind in range(len(feat_group.simple_features)):
             fc = feat_group.simple_features[feat_ind]
             symbol = fc.symbol
+            broker = fc.broker
 
             if symbol != prev_symbol:
                 df = tick_data[symbol]
@@ -134,7 +135,7 @@ def init_feature_dict(config, tick_data, now):
 
                 df = df[(df["time_msc"] >= dt0) & (df["time_msc"] <= trade_time)]
 
-                tick_df = load_raw_tick_data(config, symbol, dt, df=df)
+                tick_df = load_raw_tick_data(config, broker, symbol, dt, df=df)
                 tick_df = tick_df[1:]
 
                 df_group = group_tick_data_by_time(
@@ -216,6 +217,7 @@ def update_feature_dict(config, tick_data, feature_data, trade_time):
         for feat_ind in range(len(feat_group.simple_features)):
             fc = feat_group.simple_features[feat_ind]
             symbol = fc.symbol
+            broker = fc.broker
 
             if symbol != prev_symbol:
                 df = tick_data[symbol]
@@ -226,7 +228,7 @@ def update_feature_dict(config, tick_data, feature_data, trade_time):
                 df = df[dt0:]
                 df = df[df["time_msc"] <= trade_time]
 
-                tick_df = load_raw_tick_data(config, symbol, dt, df=df)
+                tick_df = load_raw_tick_data(config, broker, symbol, dt, df=df)
                 tick_df = tick_df[1:]
 
                 df_group = group_tick_data_by_time(

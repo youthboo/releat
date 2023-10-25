@@ -111,7 +111,7 @@ def make_save_paths(agent_version):
     return Paths(**paths)
 
 
-def get_ticker_info(feature_spec, broker):
+def get_ticker_info(feature_spec):
     """Get ticker info.
 
     Reads reference file with all the available tickers, times, lot sizes and other
@@ -124,8 +124,6 @@ def get_ticker_info(feature_spec, broker):
     Args:
         feature_spec (List(dict)):
             config from the feature_config.py file.
-        broker (str):
-            broker is either
 
     Returns:
         dict:
@@ -139,7 +137,10 @@ def get_ticker_info(feature_spec, broker):
         fcs = feature_spec[i]["simple_features"]
         for j in range(len(fcs)):
             symbol = fcs[j]["symbol"]
-            if symbol not in [x.symbol for x in agent_symbol_info]:
+            broker = fcs[j]["broker"]
+            a = symbol not in [x.symbol for x in agent_symbol_info]
+            a = a & (broker not in [x.broker for x in agent_symbol_info])
+            if a:
                 symbol_info = trading_instruments[broker][symbol]
                 symbol_info["symbol"] = symbol
                 agent_symbol_info_index[symbol] = len(agent_symbol_info)
@@ -165,15 +166,13 @@ def make_agent_config(config, feature_spec):
         obj:
             single config used through training and deployment process
     """
-    broker = config["broker"]
-
     config["paths"] = make_save_paths(config["agent_version"])
     config["aerospike"]["set_name"] = config["agent_version"]
     config["aerospike"] = AerospikeConfig(**config["aerospike"])
     config["redis"] = RedisConfig(**config["redis"])
     config["mt5"] = MT5Config(**config["mt5"])
 
-    config = {**config, **get_ticker_info(feature_spec, broker)}
+    config = {**config, **get_ticker_info(feature_spec)}
 
     config["raw_data"] = RawDataConfig(**config["raw_data"])
 

@@ -148,3 +148,27 @@ def get_current_mt5_time(hour_diff, format="datetime"):
     if format == "str":
         t = t.strftime("%Y-%m-%d %H:%M:%S.%f")
     return t
+
+
+def ceil_timestamp(t, timeframe, trade_time_offset=3):
+    """Round timestamp to the next timeframe.
+
+    For example if the timestamp is 2023-01-01 10:20:25.123 and the feature_timeframe =
+    10S, then the timestamp is rounded up to 2023-01-01 10:20:33.
+    # TODO investigate whether I should be zeroing the microseconds - feels wrong
+    Args:
+        t (pd.Timestamp):
+            tz unaware timestamp
+        timeframe (str):
+            string corresponding to pandas' timeframes https://pandas.pydata.org/
+            pandas-docs/version/1.5/user_guide/timeseries.html#timeseries-offset-aliases
+
+    Returns:
+        pd.Timestamp
+
+    """
+    # t = t.replace(microsecond=0)-pd.Timedelta(seconds=trade_time_offset)
+    t -= pd.Timedelta(seconds=trade_time_offset)
+    timeframe = timeframe.replace("m", "T")
+    t = t.ceil(timeframe) + pd.Timedelta(seconds=trade_time_offset)
+    return t

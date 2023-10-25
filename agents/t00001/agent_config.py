@@ -13,7 +13,6 @@ from releat.utils.configs.constants import mt5_creds
 
 agent_config = {
     "agent_version": "t00001",
-    "broker": "metaquotes",
     "platform": "mt5",
     "rl_algorithm": "impala",
     # tick data param
@@ -26,6 +25,7 @@ agent_config = {
         "trade_time_offset": "3s",
         "min_obs_val": -2.1,
         "max_obs_val": 2.1,
+        "data_mode": "demo",
     },
     # gym env parameters
     "gym_env": {

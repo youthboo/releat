@@ -17,6 +17,8 @@ import pandas as pd
 import polars as pl
 from tqdm import tqdm
 
+from releat.connectors.aerospike import get_records_in_aerospike
+from releat.connectors.aerospike import search_aerospike_for_dt
 from releat.data.cleaning import fill_trade_interval
 from releat.data.cleaning import get_trade_price
 from releat.data.cleaning import group_tick_data_by_time
@@ -33,8 +35,6 @@ from releat.data.transformers import apply_transform
 from releat.data.transformers import enrich_transform_config
 from releat.data.transformers import get_transform_params_for_all_features
 from releat.data.utils import get_feature_dir
-from releat.data.utils import get_records_in_aerospike
-from releat.data.utils import search_aerospike_for_dt
 from releat.utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -159,8 +159,9 @@ def build_features_by_dt(config, dts):
             for feat_ind in range(len(feat_group.simple_features)):
                 fc = feat_group.simple_features[feat_ind]
                 symbol = fc.symbol
+                broker = fc.broker
                 if symbol != prev_symbol:
-                    tick_df = load_raw_tick_data(config, symbol, dt)
+                    tick_df = load_raw_tick_data(config, broker, symbol, dt)
                     df_group = group_tick_data_by_time(config, feat_group_ind, tick_df)
 
                 logger.info(f"{dt} - making feature {feat_group_ind}-{feat_ind}")
@@ -198,11 +199,13 @@ def upload_trade_data(config, client, dt, start_val=None):
         None
 
     """
-    symbols = list(config.symbol_info_index.keys())
     dfs = None
-    for symbol in symbols:
-        save_dir = f"{config.paths.feature_dir}/trade_price/{config.broker}/{symbol}"
+    for si in config.symbol_info:
+        symbol = si.symbol
+        broker = si.broker
+        save_dir = f"{config.paths.feature_dir}/trade_price/{broker}/{symbol}"
         df = pl.read_parquet(f"{save_dir}/{dt}.parquet", use_pyarrow=True)
+        # TODO add in timezone change here!
         df = df.with_columns(pl.col("time_msc").cast(pl.Utf8))
         if dfs is None:
             dfs = df.clone()
@@ -281,6 +284,7 @@ def upload_feature_group(config, client, feat_group_ind, dt, start_val):
         scaled_obs_dir = get_feature_dir(config, feat_group_ind, feat_ind)
         f = f"{scaled_obs_dir}/raw_data/{dt}.parquet"
 
+        # TODO add in timezone change here
         df = pd.read_parquet(f).set_index("time_msc")
 
         fc = config.features[feat_group_ind].simple_features[feat_ind]
@@ -436,7 +440,6 @@ def populate_train_data(config, mode="update"):
         None
 
     """
-    symbols = list(config.symbol_info_index.keys())
     client = aerospike.client(config.aerospike.connection).connect()
 
     if mode == "update":
@@ -450,9 +453,9 @@ def populate_train_data(config, mode="update"):
             for feat_ind in range(len(feat_group.simple_features)):
                 fc = feat_group.simple_features[feat_ind]
                 symbol = fc.symbol
-
+                broker = fc.broker
                 if symbol != prev_symbol:
-                    tick_df = load_raw_tick_data(config, symbol, dt)
+                    tick_df = load_raw_tick_data(config, broker, symbol, dt)
                     df_group = group_tick_data_by_time(config, feat_group_ind, tick_df)
 
                 _ = make_feature(
@@ -473,8 +476,8 @@ def populate_train_data(config, mode="update"):
     for i in tqdm(range(len(dts))):
         dt = dts[i]
 
-        for symbol in symbols:
-            _ = get_trade_price(config, symbol, dt)
+        for symbol_info in config.symbol_info:
+            _ = get_trade_price(config, symbol_info.broker, symbol_info.symbol, dt)
 
         start_val = None
         _ = upload_trade_data(config, client, dt, start_val)

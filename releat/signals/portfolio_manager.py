@@ -23,7 +23,6 @@ class PortfolioManager:
         self.feature_data = None
         self.gym_data = None
         self.config = load_config(agent_version, enrich_feat_spec=True, is_training=False)
-        self.symbols = list(self.config.symbol_info_index.keys())
         self.gym_portfolio = build_pos_arrs(self.config.trader)
         self.gym_portfolio_hedge = build_pos_arrs(self.config.trader)
         self.trade_lot = self.config.trader.lot

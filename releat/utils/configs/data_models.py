@@ -44,6 +44,12 @@ class SymbolSpec(BaseModel):
     pip_val: float
     # round trip comission in usd
     commission: float
+    # broker
+    broker: str
+    # maintenance - amount required to carry past daily close
+    maintenance: float
+    # margin - amount required to open a position
+    margin: float
 
 
 class RawDataConfig(BaseModel):
@@ -69,6 +75,8 @@ class RawDataConfig(BaseModel):
     # min and max values for each gym observation
     min_obs_val: float
     max_obs_val: float
+    # live or demo data
+    data_mode: str
 
 
 class GymEnvConfig(BaseModel):
@@ -359,12 +367,8 @@ class AgentConfig(BaseModel):
     rl_algorithm: str
     # Redis
     redis: RedisConfig
-    # Symbol info
-    # Currently only fxtm or ampfutures, in the future, ibkr and binance
-    broker: str
     # Currently only mt5 but in the future ibkr, binance
     platform: str
-    # TODO get rid of symbol info by putting that info in execution config and
     # each feature
     # Dict of SymbolSpec
     symbol_info: list[SymbolSpec]
