@@ -346,7 +346,13 @@ class MT5Connector:
         dt1 = datetime.strptime(dt1, "%Y-%m-%d %H:%M:%S.%f")
         dt1 = pytz.utc.localize(dt1)
 
-        df = mt5.copy_ticks_range(symbol, dt0, dt1, mt5.COPY_TICKS_ALL)
-        if len(df) > 0:
-            df = pd.DataFrame(df).drop("time", axis=1)
-            return df
+        counter = 0
+        while counter < 10:
+            try:
+                df = mt5.copy_ticks_range(symbol, dt0, dt1, mt5.COPY_TICKS_ALL)
+                if len(df) > 0:
+                    df = pd.DataFrame(df).drop("time", axis=1)
+                    return df
+            except Exception:
+                counter += 1
+                sleep(10)

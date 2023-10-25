@@ -66,9 +66,6 @@ class FeatureBuilder:
         # (i.e. open or close a long or short position)
         self.action_map = build_action_map(self.config.trader)
 
-        # all symbols required for this config
-        self.symbols = list(self.config.symbol_info_index.keys())
-
         # gym representation of the open positions
         self.gym_portfolio = build_pos_arrs(self.config.trader)
 

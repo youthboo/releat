@@ -94,8 +94,11 @@ def kill_processes(pids):
     """
     if len(pids) > 0:
         for pid in pids:
-            os.killpg(os.getpgid(pid), signal.SIGTERM)
-            logger.info(f"process id: {pid} killed")
+            try:
+                os.killpg(os.getpgid(pid), signal.SIGTERM)
+                logger.info(f"process id: {pid} killed")
+            except Exception:
+                logger.info(f"process id: {pid} already killed")
 
 
 def start_aerospike():

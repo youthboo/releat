@@ -14,7 +14,7 @@ from datetime import datetime
 import polars as pl
 from dateutil.relativedelta import relativedelta
 
-from releat.data.utils import download_tick_data
+from releat.data.extractor import download_tick_data
 
 
 def clean_raw_tick_data(df, tick_time_diff_clip_val):
@@ -140,7 +140,7 @@ def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train"):
     return df_group
 
 
-def load_raw_tick_data(config, symbol, dt, df=None):
+def load_raw_tick_data(config, broker, symbol, dt, df=None):
     """Load raw tick data.
 
     #TODO clean up logic
@@ -177,7 +177,7 @@ def load_raw_tick_data(config, symbol, dt, df=None):
 
     """
     if dt == "update":
-        local_tick_data_dir = f"{config.paths.update_tick_data_dir}/{config.broker}"
+        local_tick_data_dir = f"{config.paths.update_tick_data_dir}/{broker}"
         os.makedirs(local_tick_data_dir, exist_ok=True)
         local_f = f"{local_tick_data_dir}/{symbol}.parquet"
         df = pl.read_parquet(local_f, use_pyarrow=True)
@@ -224,7 +224,7 @@ def load_raw_tick_data(config, symbol, dt, df=None):
                 f"{prev_dt.strftime('%Y-%m-%d')}_{prev_dt1.strftime('%Y-%m-%d')}.parquet"
             )
 
-        local_tick_data_dir = f"{config.paths.tick_data_dir}/{config.broker}/{symbol}"
+        local_tick_data_dir = f"{config.paths.tick_data_dir}/{broker}/{symbol}"
         os.makedirs(local_tick_data_dir, exist_ok=True)
 
         tick_df = []
@@ -236,9 +236,21 @@ def load_raw_tick_data(config, symbol, dt, df=None):
                 # TODO clean this logic, make polars instead of pandas
                 if not os.path.exists(local_f):
                     if prev_f == f:
-                        df = download_tick_data(config, symbol, prev_dt, prev_dt1)
+                        df = download_tick_data(
+                            broker,
+                            symbol,
+                            prev_dt,
+                            prev_dt1 + relativedelta(days=1),
+                            data_mode=config.raw_data.data_mode,
+                        )["tick_df"]
                     elif curr_f == f:
-                        df = download_tick_data(config, symbol, dt, dt1)
+                        df = download_tick_data(
+                            broker,
+                            symbol,
+                            dt,
+                            dt1 + relativedelta(days=1),
+                            data_mode=config.raw_data.data_mode,
+                        )["tick_df"]
                     df.to_parquet(local_f, engine="pyarrow")
                     df = pl.from_pandas(df)
                 else:
@@ -267,7 +279,7 @@ def load_raw_tick_data(config, symbol, dt, df=None):
         return tick_df
 
 
-def get_trade_price(config, symbol, dt):
+def get_trade_price(config, broker, symbol, dt):
     """Get trade price.
 
     For each trade time interval, get the bid and ask price for the next X seconds
@@ -285,7 +297,7 @@ def get_trade_price(config, symbol, dt):
 
     """
     trade_timeframe = config.raw_data.trade_timeframe
-    tick_df = load_raw_tick_data(config, symbol, dt)
+    tick_df = load_raw_tick_data(config, broker, symbol, dt)
 
     tick_df = tick_df.with_columns(
         pl.col("time_msc").dt.offset_by(by="-" + config.raw_data.trade_time_offset),
@@ -312,6 +324,6 @@ def get_trade_price(config, symbol, dt):
     )
     df = fill_trade_interval(df, trade_timeframe, "forward")
 
-    save_dir = f"{config.paths.feature_dir}/trade_price/{config.broker}/{symbol}"
+    save_dir = f"{config.paths.feature_dir}/trade_price/{broker}/{symbol}"
     os.makedirs(save_dir, exist_ok=True)
     df.write_parquet(f"{save_dir}/{dt}.parquet", use_pyarrow=True)
