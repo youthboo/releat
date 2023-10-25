@@ -143,6 +143,7 @@ def get_ticker_info(feature_spec):
             if a:
                 symbol_info = trading_instruments[broker][symbol]
                 symbol_info["symbol"] = symbol
+                symbol_info["broker"] = broker
                 agent_symbol_info_index[symbol] = len(agent_symbol_info)
                 agent_symbol_info.append(SymbolSpec(**symbol_info))
 
