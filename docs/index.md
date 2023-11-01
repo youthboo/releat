@@ -40,6 +40,11 @@ Note this is still a work in progress.
 
 - [Installation](./getting_started/installation.md) - instructions on how to build or download the docker container
 - [Basic Usage](./getting_started/basic_usage.md) - an example on how to build a feature set, train, deploy and trade a RL strategy for EURUSD on a metaquotes demo account
+- [Architecture](./development_notes/architecture/overview.md) - a high level overview of the conceptual architecture and repository structure
+
+### Examples
+
+A collection of jupyter notebooks to show how different components work. Note that these notebooks are stored in `docs/examples`
 
 ### Development Notes
 
