@@ -121,6 +121,7 @@ nav:
   - Getting Started:
       - Installation: ./getting_started/installation.md
       - Basic Usage: ./getting_started/basic_usage.md
+      - Architecture: ./development_notes/architecture/overview.md
   - Examples:
       - Extracting MT5 data: ./examples/mt5-api-data-extract.ipynb
   - Development Notes:
