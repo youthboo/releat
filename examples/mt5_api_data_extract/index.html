@@ -24,7 +24,7 @@
     
     
       
-        <title>Data extraction via MT5 Api - ReLeAT</title>
+        <title>Data extraction via MT5 api - ReLeAT</title>
       
     
     
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Data extraction via MT5 Api
+              Data extraction via MT5 api
             
           </span>
         </div>
@@ -546,7 +546,7 @@
           
   
   <span class="md-ellipsis">
-    Data extraction via MT5 Api
+    Data extraction via MT5 api
   </span>
   
 
@@ -557,7 +557,7 @@
         
   
   <span class="md-ellipsis">
-    Data extraction via MT5 Api
+    Data extraction via MT5 api
   </span>
   
 
@@ -618,7 +618,7 @@
         
   
   <span class="md-ellipsis">
-    Make Gradient Feature
+    Make gradient feature
   </span>
   
 
@@ -1193,7 +1193,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="data-extraction-via-mt5-api">Data extraction via MT5 Api<a class="anchor-link" href="#data-extraction-via-mt5-api">¶</a></h1><p>Each trading symbol has its own process for the wine mt5 api. This is so that in production, we're able to reduce latency (at the cost of higher memory consumption) by pulling from one or more brokers in parallel.</p>
+<h1 id="data-extraction-via-mt5-api">Data extraction via MT5 api<a class="anchor-link" href="#data-extraction-via-mt5-api">¶</a></h1><p>Each trading symbol has its own process for the wine mt5 api. This is so that in production, we're able to reduce latency (at the cost of higher memory consumption) by pulling from one or more brokers in parallel.</p>
 <h3 id="prerequisite-start-mt5-apis">PREREQUISITE - start mt5 apis<a class="anchor-link" href="#prerequisite-start-mt5-apis">¶</a></h3><p>Before running this notebooks, first launch the mt5 apis from the docker terminal using the command:</p>
 <p><code>releat launch-all-mt5-apis</code></p>
 <p>Alternatively, you can run it from your local terminal and execute on your docker container, replace <code>&lt;container-name&gt;</code> with the name of the container, which should either be <code>releat</code> or <code>releat-dc</code> depending on how you set it up:</p>
@@ -1208,7 +1208,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-1">
@@ -1243,13 +1243,13 @@ logger = get_logger(__name__, log_level=logging.INFO)</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-2">
@@ -1265,7 +1265,7 @@ logger = get_logger(__name__, log_level=logging.INFO)</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># start date - datetime must be in this format</span>
 <span class="n">dt0</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s2">"2023-09-06 10:00:00.000"</span><span class="p">,</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># end date - excludes boundary</span>
-<span class="n">dt1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s2">"2023-09-06 10:01:01.001"</span><span class="p">,</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s2">"2023-09-06 10:00:10.001"</span><span class="p">,</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># data_mode - either demo or live</span>
 <span class="n">data_mode</span> <span class="o">=</span> <span class="s2">"demo"</span>
 <span class="c1"># check api - whether to check the connection, if failed, it will try to initialize the</span>
@@ -1288,7 +1288,7 @@ logger = get_logger(__name__, log_level=logging.INFO)</div>
 <div class="clipboard-copy-txt" id="cell-2"># start date - datetime must be in this format
 dt0 = datetime.strptime("2023-09-06 10:00:00.000","%Y-%m-%d %H:%M:%S.%f")
 # end date - excludes boundary
-dt1 = datetime.strptime("2023-09-06 10:01:01.001","%Y-%m-%d %H:%M:%S.%f")
+dt1 = datetime.strptime("2023-09-06 10:00:10.001","%Y-%m-%d %H:%M:%S.%f")
 # data_mode - either demo or live
 data_mode = "demo"
 # check api - whether to check the connection, if failed, it will try to initialize the
@@ -1311,14 +1311,28 @@ print(dl_args[0])</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>An example of input list to the download_tick_data function:
+['metaquotes', 'EURUSD', datetime.datetime(2023, 9, 6, 10, 0), datetime.datetime(2023, 9, 6, 10, 0, 10, 1000), 'demo', False]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-3">
@@ -1340,6 +1354,40 @@ download_tick_data(*dl_args[1])</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre><span class="ansi-blue-intense-fg">2023-11-04 10:35:44,096  INFO   releat.data.extractor  |  metaquotes AUDJPY 2023-09-06 10:00:00.000000 &gt;&gt; 2023-09-06 10:00:10.001000       65 ticks</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'broker': 'metaquotes',
+ 'symbol': 'AUDJPY',
+ 'tick_df':        bid     ask  last  volume                time_msc  flags  volume_real
+ 0   94.084  94.093   0.0       0 2023-09-06 10:00:00.016    130          0.0
+ 1   94.083  94.092   0.0       0 2023-09-06 10:00:00.063    134          0.0
+ 2   94.085  94.093   0.0       0 2023-09-06 10:00:00.116    134          0.0
+ 3   94.085  94.094   0.0       0 2023-09-06 10:00:00.151      4          0.0
+ 4   94.087  94.095   0.0       0 2023-09-06 10:00:00.174    134          0.0
+ ..     ...     ...   ...     ...                     ...    ...          ...
+ 60  94.071  94.079   0.0       0 2023-09-06 10:00:09.196    130          0.0
+ 61  94.071  94.080   0.0       0 2023-09-06 10:00:09.345      4          0.0
+ 62  94.074  94.082   0.0       0 2023-09-06 10:00:09.628    134          0.0
+ 63  94.074  94.083   0.0       0 2023-09-06 10:00:09.677      4          0.0
+ 64  94.075  94.084   0.0       0 2023-09-06 10:00:09.745    134          0.0
+ 
+ [65 rows x 7 columns]}</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
@@ -1347,7 +1395,7 @@ download_tick_data(*dl_args[1])</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-4">
@@ -1450,13 +1498,13 @@ list(pool.map(lambda p: download_tick_data(*p), dl_args))</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-7">
@@ -1478,14 +1526,29 @@ stop_mt5()</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre><span class="ansi-blue-intense-fg">2023-11-04 10:35:52,946  INFO   releat.workflows.service_manager  |  process id: 728095 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:52,947  INFO   releat.workflows.service_manager  |  process id: 728698 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:52,948  INFO   releat.workflows.service_manager  |  MetaTrader5 stopped: process ids [728095, 728698] killed</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy for="cell-8">
@@ -1515,6 +1578,40 @@ print(f"mt5 apis stopped - process ids {pids} killed")
 # kill wine processes
 pids = get_pids("python.exe")
 kill_processes(pids)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre><span class="ansi-blue-intense-fg">2023-11-04 10:35:55,953  INFO   releat.workflows.service_manager  |  process id: 727954 killed</span>
+mt5 apis stopped - process ids [727954] killed
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,962  INFO   releat.workflows.service_manager  |  process id: 728002 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,965  INFO   releat.workflows.service_manager  |  process id: 728057 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,967  INFO   releat.workflows.service_manager  |  process id: 728152 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,968  INFO   releat.workflows.service_manager  |  process id: 728248 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,970  INFO   releat.workflows.service_manager  |  process id: 728283 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,971  INFO   releat.workflows.service_manager  |  process id: 728343 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,972  INFO   releat.workflows.service_manager  |  process id: 728380 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,973  INFO   releat.workflows.service_manager  |  process id: 728444 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,974  INFO   releat.workflows.service_manager  |  process id: 728485 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,974  INFO   releat.workflows.service_manager  |  process id: 728558 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,975  INFO   releat.workflows.service_manager  |  process id: 728595 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,976  INFO   releat.workflows.service_manager  |  process id: 728665 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,979  INFO   releat.workflows.service_manager  |  process id: 728755 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,981  INFO   releat.workflows.service_manager  |  process id: 728844 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,983  INFO   releat.workflows.service_manager  |  process id: 728879 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,984  INFO   releat.workflows.service_manager  |  process id: 728960 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,986  INFO   releat.workflows.service_manager  |  process id: 728991 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,987  INFO   releat.workflows.service_manager  |  process id: 729070 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,987  INFO   releat.workflows.service_manager  |  process id: 729105 killed</span>
+<span class="ansi-blue-intense-fg">2023-11-04 10:35:55,988  INFO   releat.workflows.service_manager  |  process id: 729186 already killed</span>
+</pre>
 </div>
 </div>
 </div>
