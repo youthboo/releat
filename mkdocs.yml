@@ -123,7 +123,8 @@ nav:
       - Basic Usage: ./getting_started/basic_usage.md
       - Architecture: ./development_notes/architecture/overview.md
   - Examples:
-      - Extracting MT5 data: ./examples/mt5-api-data-extract.ipynb
+      - Extracting MT5 data: ./examples/mt5_api_data_extract.ipynb
+      - Building gradient feature: ./examples/make_gradient_feature.ipynb
   - Development Notes:
     - Containerisation: ./development_notes/releat_dockerfile.md
   - Troubleshooting: ./troubleshooting/troubleshooting.md
