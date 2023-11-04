@@ -16,7 +16,7 @@
         <link rel="prev" href="../../development_notes/architecture/overview/">
       
       
-        <link rel="next" href="../../development_notes/releat_dockerfile/">
+        <link rel="next" href="../make_gradient_feature/">
       
       
       <link rel="icon" href="../../images/logo-1.png">
@@ -497,6 +497,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -577,8 +579,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important-start-mt5-apis" class="md-nav__link">
-    IMPORTANT - start mt5 apis
+  <a href="#prerequisite-start-mt5-apis" class="md-nav__link">
+    PREREQUISITE - start mt5 apis
   </a>
   
 </li>
@@ -601,6 +603,26 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../make_gradient_feature/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gradient Feature
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -726,8 +748,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important-start-mt5-apis" class="md-nav__link">
-    IMPORTANT - start mt5 apis
+  <a href="#prerequisite-start-mt5-apis" class="md-nav__link">
+    PREREQUISITE - start mt5 apis
   </a>
   
 </li>
@@ -1172,7 +1194,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="data-extraction-via-mt5-api">Data extraction via MT5 Api<a class="anchor-link" href="#data-extraction-via-mt5-api">¶</a></h1><p>Each trading symbol has its own process for the wine mt5 api. This is so that in production, we're able to reduce latency (at the cost of higher memory consumption) by pulling from one or more brokers in parallel.</p>
-<h3 id="important-start-mt5-apis">IMPORTANT - start mt5 apis<a class="anchor-link" href="#important-start-mt5-apis">¶</a></h3><p>Before running this notebooks, first launch the mt5 apis from the docker terminal using the command:</p>
+<h3 id="prerequisite-start-mt5-apis">PREREQUISITE - start mt5 apis<a class="anchor-link" href="#prerequisite-start-mt5-apis">¶</a></h3><p>Before running this notebooks, first launch the mt5 apis from the docker terminal using the command:</p>
 <p><code>releat launch-all-mt5-apis</code></p>
 <p>Alternatively, you can run it from your local terminal and execute on your docker container, replace <code>&lt;container-name&gt;</code> with the name of the container, which should either be <code>releat</code> or <code>releat-dc</code> depending on how you set it up:</p>
 <p><code>docker exec -it &lt;container-name&gt; releat launch-all-mt5-apis</code></p>
