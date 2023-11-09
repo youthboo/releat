@@ -22,6 +22,7 @@ import requests
 
 from releat.utils.configs.constants import mt5_api_port_map
 from releat.utils.configs.constants import mt5_creds
+from releat.utils.configs.constants import root_dir
 from releat.utils.logging import get_logger
 
 logger = get_logger(__name__, log_level=logging.INFO)
@@ -103,6 +104,7 @@ def kill_processes(pids):
 
 def start_aerospike():
     """Start Aerospike."""
+    os.makedirs(f"{root_dir}/data/aerospike", exist_ok=True)
     res = subprocess.run("asinfo -v STATUS", capture_output=True, text=True, shell=True)
     if "ERROR" in res.stdout != "":
         cmd_str = "asd --config-file ./infrastructure/aerospike/aerospike.conf"

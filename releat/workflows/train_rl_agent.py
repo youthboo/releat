@@ -79,7 +79,7 @@ def train_rl_agent(config, AgentModel):
 
         print(
             f"{int(results['timesteps_total']/1_000_000)}".rjust(7),
-            f"| {max_samples/1_000_000:.2f}".rjust(5),
+            f"| {max_samples/1_000_000:.3f}".rjust(6),
             f"| reward: {results['episode_reward_mean']:.1f}".rjust(13),
             f"| len: {results['episode_len_mean']:.0f}".rjust(9),
             f"| eps: {results['episodes_this_iter']}".rjust(7),

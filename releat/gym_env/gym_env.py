@@ -72,9 +72,6 @@ class FxEnv(gym.Env):
         self.start_ind = 1000
         self.trading_metrics = TradingMetrics()
 
-        if not self.is_training:
-            self.skip_step = 1
-
         raw_data_shape = {}
         obs_interval = {}
         lens = []
@@ -114,6 +111,9 @@ class FxEnv(gym.Env):
             if self.is_training:
                 # exclude eval data from training data
                 self.max_data_ind -= self.eval_len
+            else:
+                self.skip_step = 1
+                self.max_ep_step = 1_000_000_000
 
         if self.log_actions:
             self.action_log = []
@@ -176,7 +176,7 @@ class FxEnv(gym.Env):
                 # if debug or test mode, start from eval time
                 self.data_ind = self.start_ind = (
                     self.max_data_ind - self.eval_len + randint(-20, 20)
-                )  # - 1000000
+                )
             else:
                 self.data_ind = self.start_ind = seed
             self.mask_pos_size = False
@@ -308,16 +308,19 @@ class FxEnv(gym.Env):
         reward -= self.step_penalty
         reward = np.clip(reward / 20, -2.0, 2.0)
 
-        # if number of trades is exceeded
-        done = self.trade_journal_ind >= self.max_trades
-        # if episode time is exceeded
-        done = done | (self.ep_time >= self.max_ep_step)
+        done = False
+        if self.is_training:
+            # if number of trades is exceeded
+            done = self.trade_journal_ind >= self.max_trades
+            # if episode time is exceeded
+            done = done | (self.ep_time >= self.max_ep_step)
+            # if losses are exceeded
+            done = done | (self.rewards < self.min_ep_r)
+            # if wins are exceeded
+            done = done | (self.rewards > self.max_ep_r)
+
         # if end of available data
         done = done | (self.data_ind >= self.max_data_ind - 10)
-        # if losses are exceeded
-        done = done | (self.rewards < self.min_ep_r)
-        # if wins are exceeded
-        done = done | (self.rewards > self.max_ep_r)
         # no open positions (i.e. sum of pos_size = 0)
         done = done & (self.portfolio[:, 5].sum() == 0)
 
@@ -331,7 +334,11 @@ class FxEnv(gym.Env):
             ]
             df = format_portfolio(self.symbol_info, self.portfolio)
             for i in df.index:
-                log.append(df.loc[i])
+                tmp = df.loc[i].copy()
+                if tmp["curr_price"] == 0:
+                    tmp["curr_price"] = np.mean(self.curr_price[i])
+                tmp.index = [f"{i}_{c}" for c in tmp.index]
+                log.append(tmp)
 
             log = pd.concat(log, axis=0)
             self.action_log.append(log)
