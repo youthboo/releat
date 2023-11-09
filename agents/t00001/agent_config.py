@@ -41,23 +41,23 @@ agent_config = {
         "commission": 0.4,
         "step_penalty": 0.0,
         "hold_penalty": 0,
-        "eval_len": 1000,
+        "eval_len": 10_000,
         "log_actions": False,
         "is_training": True,
-        "train_iter": 8,
+        "train_iter": 1_000_000,
         "save_freq": 2,
         "rec_num": 10_000,
         "rec_growth": 0.05,
         "rec_warm_up": 20,
-        "rec_ep_t": 15,
-        "rec_reward_t": 30.0,
+        "rec_ep_t": 5,
+        "rec_reward_t": 1.0,
         "win_rate_t": 0.4,
         "pos_loss_t": -10.0,
         "drawdown_t": 30.0,
         "end_cum_r_t": -20.0,
         "min_cum_r_t": -30.0,
         "osample_p": 0.99,
-        "osample_num": 30_000,
+        "osample_num": 10_000,
         "max_ep_repeats": 2,
         "mask_size_p": 0.5,
         "mask_dir_p": 0.05,
@@ -95,7 +95,7 @@ agent_config = {
     # for each of the individual rllib components
     "rl_train": {
         "gamma": 0.99,
-        "lr": 2.5e-6,
+        "lr": 1e-5,
         # "lr_schedule": [
         #     [0, 0.0005],
         #     [100_000, 0.000000000001],
@@ -104,20 +104,20 @@ agent_config = {
         "model": {
             "custom_model_config": {
                 # Depends on the architecture of agent_model.py
-                "encoding_size": 4,
-                "branch_layer_units": 4,
-                "gr_units": 4,
+                "encoding_size": 16,
+                "branch_layer_units": 16,
+                "gr_units": 16,
                 "gr_dropout": 1e-4,
                 "actor_layer_depth": 2,
                 "value_layer_depth": 2,
-                "final_layer_units": 4,
+                "final_layer_units": 64,
             },
             "custom_model": "AgentModel",
         },
         # Impala Specific Configs
         "vtrace_drop_last_ts": False,
         "grad_clip": 40,
-        "vf_loss_coeff": 0.0005,
+        "vf_loss_coeff": 0.005,
         "entropy_coeff": 0.01,
         "learner_queue_size": 16,
     },
@@ -126,8 +126,8 @@ agent_config = {
     },
     "rl_rollouts": {
         # Specifying Rollout Workers
-        "num_rollout_workers": 2,
-        "num_envs_per_worker": 2,
+        "num_rollout_workers": 4,
+        "num_envs_per_worker": 4,
         "rollout_fragment_length": 60,
         "batch_mode": "truncate_episodes",
         "ignore_worker_failures": False,
@@ -137,7 +137,7 @@ agent_config = {
         "explore": True,
     },
     "rl_reporting": {
-        "min_time_s_per_iteration": 10,
+        "min_time_s_per_iteration": 30,
         "min_train_timesteps_per_iteration": 10_000,
     },
     "rl_debug": {

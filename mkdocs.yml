@@ -125,6 +125,7 @@ nav:
   - Examples:
       - Extracting MT5 data: ./examples/mt5_api_data_extract.ipynb
       - Building gradient feature: ./examples/make_gradient_feature.ipynb
+      - Evaluate simple RL agent (t00001): ./examples/eval_rl_agent_simple.ipynb
   - Development Notes:
     - Containerisation: ./development_notes/releat_dockerfile.md
   - Troubleshooting: ./troubleshooting/troubleshooting.md

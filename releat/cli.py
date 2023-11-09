@@ -3,9 +3,11 @@ from __future__ import annotations
 
 from time import sleep
 
+import aerospike
 import typer
 
 from releat.data.pipeline import populate_train_data
+from releat.data.pipeline import update_gym_env_hparam
 from releat.utils.configs.config_builder import load_config
 from releat.utils.logging import get_logger
 from releat.workflows import generate_signals
@@ -66,6 +68,8 @@ def train(agent_version):
         enrich_feat_spec=True,
         load_model=True,
     )
+    client = aerospike.client(config.aerospike.connection).connect()
+    _ = update_gym_env_hparam(config, client)
     train_rl_agent(config, AgentModel)
 
 
