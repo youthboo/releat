@@ -14,6 +14,9 @@ from releat.utils.time import mt5_hour_diff
 
 root_dir = str(Path(os.path.dirname(__file__)).parents[2])
 
+s3_secret = None
+
+
 mt5_api_port_map = {
     "metaquotes": {
         "general": 2000,
