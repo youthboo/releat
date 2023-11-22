@@ -276,7 +276,15 @@ def calc_gradient_feature(df_group, fc, pip):
         x = np.array(struct["x"], dtype=np.float32)
         y = np.array(struct["y"], dtype=np.float32)
         val = calc_grad(x, y, pip, min_num)
-        return tuple([val])
+        
+        if len(y)>10:
+            try:
+                val = calc_grad(x, y, pip, min_num)
+                return tuple([val])
+            except:
+                return tuple([0.0])
+        else:
+            return tuple([0.0])
 
     p_get_grad = partial(get_grad, pip, fc.kwargs["min_num"])
 
@@ -295,6 +303,7 @@ def calc_gradient_feature(df_group, fc, pip):
         .with_columns(pl.col("feat").cast(pl.List(pl.Float32)))
         .with_columns(pl.col("feat").list.get(0))
         .select(["time_msc", "feat"])
+        .collect(streaming=True)
     )
 
     return df

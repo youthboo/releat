@@ -69,7 +69,7 @@ class FxEnv(gym.Env):
             )
         # timer for reloading max samples and new data
         self.reload_metadata_t0 = 0
-        self.start_ind = 1000
+        self.start_ind = None
         self.trading_metrics = TradingMetrics()
 
         raw_data_shape = {}
