@@ -106,7 +106,7 @@ def fill_trade_interval(df, trade_timeframe, fill_strategy):
     return df
 
 
-def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train"):
+def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train",lazy=False):
     """Groups tick data by time.
 
     Args:
@@ -129,14 +129,26 @@ def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train"):
     tick_df = tick_df.with_columns(
         pl.col("time_msc").dt.offset_by(by="-" + config.raw_data.trade_time_offset),
     )
-    df_group = tick_df.set_sorted("time_msc").groupby_dynamic(
-        "time_msc",
-        every=trade_timeframe if mode == "train" else feature_timeframe,
-        period=feature_timeframe,
-        closed="left",
-        start_by="window" if mode == "train" else "datapoint",
-        check_sorted=False,
-    )
+    
+    if lazy:
+        df_group = tick_df.lazy().set_sorted("time_msc").group_by_dynamic(
+            "time_msc",
+            every=trade_timeframe if mode == "train" else feature_timeframe,
+            period=feature_timeframe,
+            closed="left",
+            start_by="window" if mode == "train" else "datapoint",
+            check_sorted=False,
+        )
+    else:
+    
+        df_group = tick_df.set_sorted("time_msc").group_by_dynamic(
+            "time_msc",
+            every=trade_timeframe if mode == "train" else feature_timeframe,
+            period=feature_timeframe,
+            closed="left",
+            start_by="window" if mode == "train" else "datapoint",
+            check_sorted=False,
+        )
     return df_group
 
 

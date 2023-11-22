@@ -36,6 +36,8 @@ from releat.data.transformers import enrich_transform_config
 from releat.data.transformers import get_transform_params_for_all_features
 from releat.data.utils import get_feature_dir
 from releat.utils.logging import get_logger
+from releat.utils.configs.constants import trading_instruments
+from glob import glob
 
 logger = get_logger(__name__)
 
@@ -162,7 +164,11 @@ def build_features_by_dt(config, dts):
                 broker = fc.broker
                 if symbol != prev_symbol:
                     tick_df = load_raw_tick_data(config, broker, symbol, dt)
-                    df_group = group_tick_data_by_time(config, feat_group_ind, tick_df)
+                    if fc.name in ['grad','fft']:
+                        df_group = group_tick_data_by_time(config, feat_group_ind, tick_df, lazy=True)
+                    else:
+                        df_group = group_tick_data_by_time(config, feat_group_ind, tick_df)
+
 
                 logger.info(f"{dt} - making feature {feat_group_ind}-{feat_ind}")
 
@@ -469,6 +475,13 @@ def populate_train_data(config, mode="update"):
 
     elif mode == "initialise":
         dts = config.raw_data.tick_file_dates
+        if dts is None:
+            dts = []
+            for broker,symbols in trading_instruments.items():
+                for symbol in symbols:
+                    files = list(glob(f"{config.paths.tick_data_dir}/{broker}/{symbol}/*"))
+                    dts += [x.split("/")[-1].split("_")[0] for x in files]
+            dts = list(set(dts))
         dts = list(sorted(dts))
         _ = build_features_by_dt(config, dts)
         _ = get_transform_params_for_all_features(config)
