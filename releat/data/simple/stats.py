@@ -275,7 +275,6 @@ def calc_gradient_feature(df_group, fc, pip):
         """Gradient of series."""
         x = np.array(struct["x"], dtype=np.float32)
         y = np.array(struct["y"], dtype=np.float32)
-        val = calc_grad(x, y, pip, min_num)
 
         if len(y) > 10:
             try:
