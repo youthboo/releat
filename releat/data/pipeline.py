@@ -36,8 +36,8 @@ from releat.data.transformers import enrich_transform_config
 from releat.data.transformers import get_transform_params_for_all_features
 from releat.data.utils import get_feature_dir
 from releat.utils.logging import get_logger
-from releat.utils.configs.constants import trading_instruments
-from glob import glob
+from releat.utils.configs.constants  import trading_instruments
+from glob import  glob
 
 logger = get_logger(__name__)
 
