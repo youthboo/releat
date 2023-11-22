@@ -477,7 +477,7 @@ def populate_train_data(config, mode="update"):
         dts = config.raw_data.tick_file_dates
         if dts is None:
             dts = []
-            for broker,symbols in trading_instruments.items():
+            for broker, symbols in trading_instruments.items():
                 for symbol in symbols:
                     files = list(glob(f"{config.paths.tick_data_dir}/{broker}/{symbol}/*"))
                     dts += [x.split("/")[-1].split("_")[0] for x in files]
