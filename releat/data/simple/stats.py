@@ -276,12 +276,12 @@ def calc_gradient_feature(df_group, fc, pip):
         x = np.array(struct["x"], dtype=np.float32)
         y = np.array(struct["y"], dtype=np.float32)
         val = calc_grad(x, y, pip, min_num)
-        
-        if len(y)>10:
+
+        if len(y) > 10:
             try:
                 val = calc_grad(x, y, pip, min_num)
                 return tuple([val])
-            except:
+            except Exception:
                 return tuple([0.0])
         else:
             return tuple([0.0])
