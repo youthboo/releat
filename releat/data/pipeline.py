@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+from glob import glob
 
 import aerospike
 import numpy as np
@@ -35,9 +36,8 @@ from releat.data.transformers import apply_transform
 from releat.data.transformers import enrich_transform_config
 from releat.data.transformers import get_transform_params_for_all_features
 from releat.data.utils import get_feature_dir
+from releat.utils.configs.constants import trading_instruments
 from releat.utils.logging import get_logger
-from releat.utils.configs.constants  import trading_instruments
-from glob import  glob
 
 logger = get_logger(__name__)
 
@@ -164,11 +164,19 @@ def build_features_by_dt(config, dts):
                 broker = fc.broker
                 if symbol != prev_symbol:
                     tick_df = load_raw_tick_data(config, broker, symbol, dt)
-                    if fc.name in ['grad','fft']:
-                        df_group = group_tick_data_by_time(config, feat_group_ind, tick_df, lazy=True)
+                    if fc.name in ["grad", "fft"]:
+                        df_group = group_tick_data_by_time(
+                            config,
+                            feat_group_ind,
+                            tick_df,
+                            lazy=True,
+                        )
                     else:
-                        df_group = group_tick_data_by_time(config, feat_group_ind, tick_df)
-
+                        df_group = group_tick_data_by_time(
+                            config,
+                            feat_group_ind,
+                            tick_df,
+                        )
 
                 logger.info(f"{dt} - making feature {feat_group_ind}-{feat_ind}")
 
@@ -370,7 +378,7 @@ def upload_scaled_obs(config, client, dt, ind):
         _ = upload_feature_group(config, client, feat_group_ind, dt, ind)
 
 
-def update_gym_env_hparam(config, client):
+def update_gym_env_hparam(config, client, overwrite_max_samples=False):
     """Update hyperparameters.
 
     Gym environment configs and hyperparameters are uploaded to database so that
@@ -417,7 +425,7 @@ def update_gym_env_hparam(config, client):
     bins["max_data_ind"] = max_data_ind
 
     _, meta = client.exists(key)
-    if meta is None:
+    if (meta is None) | (overwrite_max_samples):
         bins["max_samples"] = bins["rec_num"]
     else:
         (_, _, old_bins) = client.get(key, bins)
@@ -479,7 +487,9 @@ def populate_train_data(config, mode="update"):
             dts = []
             for broker, symbols in trading_instruments.items():
                 for symbol in symbols:
-                    files = list(glob(f"{config.paths.tick_data_dir}/{broker}/{symbol}/*"))
+                    files = list(
+                        glob(f"{config.paths.tick_data_dir}/{broker}/{symbol}/*"),
+                    )
                     dts += [x.split("/")[-1].split("_")[0] for x in files]
             dts = list(set(dts))
         dts = list(sorted(dts))

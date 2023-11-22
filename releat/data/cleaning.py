@@ -106,7 +106,7 @@ def fill_trade_interval(df, trade_timeframe, fill_strategy):
     return df
 
 
-def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train",lazy=False):
+def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train", lazy=False):
     """Groups tick data by time.
 
     Args:
@@ -118,6 +118,8 @@ def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train",lazy=F
             tick data
         mode (str):
             possible values include 'train' or anything else
+        lazy (bool):
+            if True, use lazy polars dataframe
 
     If the first tick timestamp is 2023-04-28 00:18:01.005, then the
     first group will be after that, i.e. 2023-04-28 00:18:03.001
@@ -129,18 +131,21 @@ def group_tick_data_by_time(config, feat_group_ind, tick_df, mode="train",lazy=F
     tick_df = tick_df.with_columns(
         pl.col("time_msc").dt.offset_by(by="-" + config.raw_data.trade_time_offset),
     )
-    
+
     if lazy:
-        df_group = tick_df.lazy().set_sorted("time_msc").group_by_dynamic(
-            "time_msc",
-            every=trade_timeframe if mode == "train" else feature_timeframe,
-            period=feature_timeframe,
-            closed="left",
-            start_by="window" if mode == "train" else "datapoint",
-            check_sorted=False,
+        df_group = (
+            tick_df.lazy()
+            .set_sorted("time_msc")
+            .group_by_dynamic(
+                "time_msc",
+                every=trade_timeframe if mode == "train" else feature_timeframe,
+                period=feature_timeframe,
+                closed="left",
+                start_by="window" if mode == "train" else "datapoint",
+                check_sorted=False,
+            )
         )
     else:
-    
         df_group = tick_df.set_sorted("time_msc").group_by_dynamic(
             "time_msc",
             every=trade_timeframe if mode == "train" else feature_timeframe,
