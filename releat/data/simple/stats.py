@@ -176,10 +176,16 @@ def one_hot_fx_flag(df_group, fc):
             ],
         )
         .with_columns(
-            (pl.col("feat_6") + pl.col("feat_4") + pl.col("feat_2")).alias("feat_6"),
+            (pl.col("feat_6") + pl.col("feat_4") + pl.col("feat_2"))
+            .cast(pl.Int32)
+            .alias("feat_6"),
         )
-        .with_columns((pl.col("feat_2") / pl.col("feat_6")).alias("feat_2"))
-        .with_columns((pl.col("feat_4") / pl.col("feat_6")).alias("feat_4"))
+        .with_columns(
+            (pl.col("feat_2") / pl.col("feat_6")).cast(pl.Float32).alias("feat_2"),
+        )
+        .with_columns(
+            (pl.col("feat_4") / pl.col("feat_6")).cast(pl.Float32).alias("feat_4"),
+        )
     )
     return df
 
