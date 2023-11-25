@@ -33,6 +33,7 @@ def train_rl_agent(config, AgentModel):
     ray.init(address="auto")
 
     logdir = config.paths.algo_dir
+    ckpt_offset = max([int(x.split("/")[-1].strip()) for x in glob(f"{logdir}/0*")])
     _ = os.makedirs(logdir, exist_ok=True)
 
     ModelCatalog.register_custom_model("AgentModel", AgentModel)
@@ -107,8 +108,8 @@ def train_rl_agent(config, AgentModel):
         t0 = t1
 
         if (i + 1) % bins["save_freq"] == 0:
-            checkpoint = trainer.save(logdir)
-            checkpoint_str = checkpoint.split("/")[-1].split("_")[-1]
-            ckpt_print_str += f"  ckpt: {checkpoint_str}"
+            _ = trainer.save(f"{logdir}/{str(i+ckpt_offset).zfill(7)}")
+            # checkpoint_str = checkpoint.checkpoint.path.split("/")[-1].split("_")[-1]
+            ckpt_print_str += f"  ckpt: {str(i+ckpt_offset).zfill(7)}"
 
         print(" | " + ckpt_print_str)

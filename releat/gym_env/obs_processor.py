@@ -169,9 +169,9 @@ def scale_pos_val(pos_val):
     """
     thresh = 0
     log_base = -1
-    scalar = pos_val * np.float32(0.03)
+    # scalar = pos_val * np.float32(0.03)
     pos_val = apply_log_tail(pos_val, thresh, log_base)
-    pos_val = pos_val / np.float32(3.0) + scalar
+    pos_val = pos_val / np.float32(3.0)  # + scalar
     return np.clip(pos_val, np.float32(-2.0), np.float32(2.0))
 
 
