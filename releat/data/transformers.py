@@ -28,7 +28,7 @@ from releat.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def find_clip_values(arr, lower_lim, upper_lim, method):
     """Find clip values.
 
@@ -62,7 +62,7 @@ def find_clip_values(arr, lower_lim, upper_lim, method):
     return clip_vals
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def clip_by_value(arr, clip_min, clip_max, scale_factor):
     """Clip by value.
 
@@ -140,7 +140,7 @@ def fit_scaler(arr, method):
         return out
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def yeo_johnson_transform_vec(lmbda, mean, std, vec):
     """Yeo-johnson transform for vector.
 
@@ -187,7 +187,7 @@ def yeo_johnson_transform_vec(lmbda, mean, std, vec):
     return out
 
 
-@njit
+@njit(cache=True,nogil=True, fastmath=True)
 def yeo_johnson_transform(lmbda, mean, std, arr):
     """Yeo-johnson transform for array.
 
@@ -214,7 +214,7 @@ def yeo_johnson_transform(lmbda, mean, std, arr):
     return arr
 
 
-@njit
+@njit(cache=True,nogil=True, fastmath=True)
 def linear_scaling(arr):
     """Linear scaling.
 
@@ -452,7 +452,7 @@ def get_transform_params_for_one_feature_group(config, feat_group_ind):
                             lambda x: x.take_every(take_every_num).head(obs_len),
                         ),
                     )
-                    .filter(pl.col("group_ind") >= 0)  # Fixed line here
+                    .filter(pl.col("group_ind" >= 0))
                     .with_columns(pl.lit(df_raw["time_msc"]).alias("time_msc"))
                 )
                 df = df.head(len(df) - int(obs_len * num * mult))

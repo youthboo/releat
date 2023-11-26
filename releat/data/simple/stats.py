@@ -192,6 +192,7 @@ def one_hot_fx_flag(df_group, fc):
 
 @njit(
     "Tuple((float32[:],float32[:,:],float32[:],float32[:]))(float32[:,:], float32[:,:])",
+    cache=True, nogil=True, fastmath=True
 )
 def calc_grad_and_error(x, y):
     """Calc grad and error.
@@ -226,7 +227,7 @@ def calc_grad_and_error(x, y):
     return grad.astype("float32"), err, m, c
 
 
-@njit("float32(float32[:],float32[:],float32,int32)")
+@njit("float32(float32[:],float32[:],float32,int32)",cache=True, nogil=True, fastmath=True)
 def calc_grad(x, y, pip=1e-4, min_num=10):
     """Calc gradient feature.
 
@@ -288,8 +289,6 @@ def calc_gradient_feature(df_group, fc, pip):
                 return tuple([val])
             except Exception:
                 return tuple([0.0])
-        else:
-            return tuple([0.0])
 
     p_get_grad = partial(get_grad, pip, fc.kwargs["min_num"])
 
@@ -651,7 +650,7 @@ def calc_inflection_feature(df_group, fc, pip):
     return df
 
 
-@njit("int32(int32, int32)")
+@njit("int32(int32, int32)",cache=True, nogil=True, fastmath=True)
 def randint(low, high):
     """Random integer.
 
@@ -667,7 +666,7 @@ def randint(low, high):
     return np.random.randint(low, high)
 
 
-@njit("float32[:](float32[:])")
+@njit("float32[:](float32[:])",cache=True, nogil=True, fastmath=True)
 def sign(ts):
     """Sign.
 
@@ -681,7 +680,7 @@ def sign(ts):
     return np.sign(ts)
 
 
-@njit("float32[:](float32[:],int32)")
+@njit("float32[:](float32[:],int32)",cache=True, nogil=True, fastmath=True)
 def log(ts, base=-1):
     """Log.
 
@@ -699,7 +698,7 @@ def log(ts, base=-1):
         return (np.log(ts) / np.log(base)).astype("float32")
 
 
-@njit("float32[:](float32[:], float32, int32)")
+@njit("float32[:](float32[:], float32, int32)",cache=True, nogil=True, fastmath=True)
 def apply_log_tail(ts, thresh, log_base):
     """Two-sided log.
 

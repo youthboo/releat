@@ -224,7 +224,7 @@ def make_agent_config(config, feature_spec):
         # TODO make date representation parametric
         "date_arr": p_make_box_space((3,)),
         # TODO make the position value parametric
-        "pos_val": p_make_box_space((20, 2)),
+        "pos_val": p_make_box_space((1, 2)),
         "mask": p_make_box_space((action_len,)),
     }
     for k, v in symbol_structure.items():
@@ -247,7 +247,7 @@ def make_agent_config(config, feature_spec):
         **symbol_structure,
         "date_arr": (3,),
         # TODO make the position value parametric + different views of portfolio
-        "pos_val": (20, 2),
+        "pos_val": (1, 2),
         "mask": (action_len,),
     }
 

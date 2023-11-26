@@ -20,9 +20,7 @@ from releat.gym_env.mask import make_mask
 from releat.gym_env.metrics import TradingMetrics
 from releat.gym_env.obs_processor import get_curr_price
 from releat.gym_env.obs_processor import get_obs
-from releat.gym_env.obs_processor import init_raw_data
-from releat.gym_env.obs_processor import portfolio_to_model_input
-from releat.gym_env.obs_processor import update_raw_data
+from releat.gym_env.obs_processor import get_raw_data
 
 
 class FxEnv(gym.Env):
@@ -81,10 +79,9 @@ class FxEnv(gym.Env):
             feat_timeframe = feat_group.timeframe
             feat_len = feat_group.simple_features[0].output_shape[0]
             interval = get_obs_interval(trade_timeframe, feat_timeframe)
-            val = feat_len * interval + 1
             obs_interval[str(i)] = interval
-            raw_data_shape[str(i)] = val
-            lens.append(val)
+            raw_data_shape[i] = feat_len
+            lens.append(feat_len)
         raw_data_shape["max"] = max(lens)
         self.raw_data_shape = raw_data_shape
         self.obs_interval = obs_interval
@@ -130,7 +127,7 @@ class FxEnv(gym.Env):
         self.trade_journal_ind = 0
 
         # TODO make parametric / different view of position value
-        self.raw_pos_vals = [[0.0, 0.0] * len(self.symbol_info)] * 20
+        self.raw_pos_vals = [[0.0, 0.0] * len(self.symbol_info)] * 1
 
     def reset(self, *, seed=None, options=None):
         """Reset env."""
@@ -158,15 +155,16 @@ class FxEnv(gym.Env):
             elif 1 - self.mask_dir_p < rand:
                 self.mask_pos_dir = 1
             else:
-                self.mask_pos_dir = 0
-
+                self.mask_pos_dir = 0     
+                
+                
             if (not self.trading_metrics.repeat_ep) | (self.start_ind is None):
                 if np.random.rand() > self.osample_p:
-                    low = max(self.max_data_ind - self.osample_num, 30000)
+                    low = max(self.max_data_ind - self.osample_num, 50000)
                 else:
                     low = max(
                         self.max_data_ind - self.max_samples - int(self.max_ep_step / 2),
-                        30000,
+                        50000,
                     )
                 high = self.max_data_ind - int(self.max_ep_step / 2)
                 self.start_ind = randint(low, high)
@@ -183,16 +181,14 @@ class FxEnv(gym.Env):
             self.mask_pos_dir = 0
 
         self.trading_metrics.reset_metrics(self.start_ind)
-
-        self.data = init_raw_data(
-            self.config,
+        
+        self.data = get_raw_data(self.config,
             self.client,
             self.raw_data_shape,
-            self.data_ind,
-        )
-
-        obs = get_obs(self.config, self.obs_interval, deepcopy(self.data))
-
+            self.obs_interval,
+            self.data_ind)
+        obs = get_obs(self.config, self.obs_interval, self.data)
+        
         price = self.data["trade_price"]
         self.curr_price = get_curr_price(self.symbol_info, price)
 
@@ -211,37 +207,28 @@ class FxEnv(gym.Env):
 
     def _next_observation(self):
         """Next observation."""
-        for i in range(self.skip_step):
-            self.data = update_raw_data(
-                self.config,
-                self.client,
-                self.raw_data_shape,
-                self.data,
-                self.data_ind,
-            )
-
-            pos_val = portfolio_to_model_input(self.portfolio).tolist()
-            self.raw_pos_vals.append(pos_val)
-
-            if i < self.skip_step - 1:
-                self.portfolio, _, _ = exec_action(
-                    self.action_map,
-                    self.portfolio,
-                    0,
-                    self.curr_price,
-                    self.time_int,
-                    self.commission,
-                )
-
-            price = self.data["trade_price"]
-            self.curr_price = get_curr_price(self.symbol_info, price)
-
-            self.time_int = self.data["date"]
-            self.data_ind += 1
-
+        self.data_ind += self.skip_step
+        self.data = get_raw_data(self.config,
+            self.client,
+            self.raw_data_shape,
+            self.obs_interval,
+            self.data_ind)
+        
+        # potentially a bit dodgy because of leaking future data into current timestep
+        price = self.data["trade_price"]
+        self.curr_price = get_curr_price(self.symbol_info, price)
+        self.time_int = self.data["date"]
+        self.portfolio, _, _ = exec_action(
+            self.action_map,
+            self.portfolio,
+            0,
+            self.curr_price,
+            self.time_int,
+            self.commission,
+        )
         obs = get_obs(self.config, self.obs_interval, deepcopy(self.data))
-        self.data_ind -= 1
-        self.raw_pos_vals = self.raw_pos_vals[-20:]
+        
+        self.raw_pos_vals = self.raw_pos_vals[-1:]
 
         must_hold, must_close = assess_must_actions(
             self.portfolio,
@@ -306,7 +293,7 @@ class FxEnv(gym.Env):
         # TODO abstract reward function
         # step penalty
         reward -= self.step_penalty
-        reward = np.clip(reward / 20, -2.0, 2.0)
+        reward = np.clip(reward / 30, -10.0, 10.0)
 
         done = False
         if self.is_training:
@@ -322,8 +309,8 @@ class FxEnv(gym.Env):
         # if end of available data
         done = done | (self.data_ind >= self.max_data_ind - 10)
         # no open positions (i.e. sum of pos_size = 0)
-        done = done & (self.portfolio[:, 5].sum() == 0)
-
+        done = done & (self.portfolio[:, 5].sum() == 0)        
+        
         if self.log_actions:
             # save rewards
             log = [

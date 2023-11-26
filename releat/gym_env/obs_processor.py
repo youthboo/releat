@@ -9,7 +9,7 @@ from releat.data.simple.stats import randint
 from releat.data.transformers import apply_transform
 
 
-def init_raw_data(config, client, raw_data_shape, i):
+def get_raw_data(config, client, raw_data_shape, obs_interval, ind):
     """Initialise raw data.
 
     Initialising raw data by reading and storing in memory the all the records
@@ -27,7 +27,9 @@ def init_raw_data(config, client, raw_data_shape, i):
             client object for downloading downloading records
         raw_data_shape (dict):
             shape for each of the arrays in the observation
-        i (int):
+        obs_interval (dict[int]):
+            number of trade_timesteps between each sample of feature
+        ind (int):
             database table index of the starting observation, i.e. records are pulled
             from i-x:i
 
@@ -36,73 +38,34 @@ def init_raw_data(config, client, raw_data_shape, i):
             raw_data from which the observation can be build
 
     """
+    
     raw_data = {}
-    feat_group_inds = [x for x in raw_data_shape.keys() if x != "max"]
-    for k in feat_group_inds:
-        raw_data[k] = []
+    for feat_group_ind, num in raw_data_shape.items():
+        
+        if feat_group_ind != "max":
+        
+            if feat_group_ind==0:
+                bins = ('date', 'trade_price', 'date_arr', '0')
+            else:
+                bins = (str(feat_group_ind),)
 
-    for j in range(i - raw_data_shape["max"], i + 1):
-        key = (
-            config["aerospike"].namespace,
-            config["aerospike"].set_name,
-            j,
-        )
-        (_, _, bins) = client.get(key)
-        for k in feat_group_inds:
-            raw_data[k].append(bins[k])
+            ks = [(
+                    config["aerospike"].namespace,
+                    config["aerospike"].set_name,
+                    ind-i*obs_interval[str(feat_group_ind)],
+                ) for i in reversed(range(num+1))]
 
-    raw_data["date"] = bins["date"]
-    raw_data["trade_price"] = bins["trade_price"]
-    raw_data["date_arr"] = bins["date_arr"]
+            records = client.select_many(ks,bins)
 
-    for k in feat_group_inds:
-        raw_data[k] = np.array(raw_data[k][-raw_data_shape[k] :], dtype=np.float32)
+            if feat_group_ind==0:
+                raw_data['date'] = records[-1][2]['date']
+                raw_data['trade_price'] = records[-1][2]['trade_price']
+                raw_data['date_arr'] = records[-1][2]['date_arr']
 
-    return raw_data
-
-
-def update_raw_data(config, client, raw_data_shape, raw_data, i):
-    """Update raw data.
-
-    Reads the next record and appends to raw data. Run at each gym environment step.
-
-    Args:
-        config (Dict(pydantic.BaseModel|dict|Any)):
-            as defined in 'agent_config.py'
-        client (aerospike.Client):
-            client object for downloading downloading records
-        raw_data_shape (dict):
-            shape for each of the arrays in the observation
-        raw_data (dict):
-            raw data where the new record will be appended
-        i (int):
-            database table index of the next observation
-
-    Returns:
-        dict
-            raw_data with the next observation appended
-
-    """
-    feat_group_inds = [x for x in raw_data_shape.keys() if x != "max"]
-
-    key = (
-        config["aerospike"].namespace,
-        config["aerospike"].set_name,
-        i,
-    )
-
-    (_, _, bins) = client.get(key)
-
-    for k in feat_group_inds:
-        bins[k] = np.array([bins[k]], dtype=np.float32)
-        raw_data[k] = np.vstack([raw_data[k], bins[k]])[1:]
-
-    raw_data["date"] = bins["date"]
-    raw_data["trade_price"] = bins["trade_price"]
-    raw_data["date_arr"] = bins["date_arr"]
+            records = np.array([x[2][str(feat_group_ind)] for x in records],dtype='float32')
+            raw_data[str(feat_group_ind)] = records
 
     return raw_data
-
 
 def get_obs(config, obs_interval, raw_data):
     """Get obs.
@@ -128,7 +91,7 @@ def get_obs(config, obs_interval, raw_data):
     obs = {}
     feat_group_inds = [x for x in obs_interval.keys()]
     for k in feat_group_inds:
-        obs[k] = raw_data[k][:: obs_interval[k]]
+        obs[k] = raw_data[k]
 
     for feat_group_ind in range(len(feat_group_inds)):
         feat_ind = 0

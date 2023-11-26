@@ -20,7 +20,7 @@ statsmodels = "^0.13"
 scikit-learn = "^1.2"
 pandas = "^1.5"
 matplotlib = "^3.7"
-ray = {extras = ["all"], version = "^2.5"}
+ray = {extras = ["all"], version = "2.5.1"}
 polars-u64-idx = {extras = ["fsspec", "numpy", "pyarrow","pandas"], version = "^0.19"}
 pydantic = "^1.10"
 fastapi="0.99.1"

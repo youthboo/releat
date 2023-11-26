@@ -275,7 +275,7 @@ def make_episode_end_mask(action_map, portfolio):
     return action_mask
 
 
-@njit(cache=True)
+@njit(cache=True,nogil=True, fastmath=True)
 def np_any_axis0(x):
     """Numba compatible version of np.any(x, axis=0).
 
@@ -289,7 +289,7 @@ def np_any_axis0(x):
     return out
 
 
-@njit
+@njit(cache=True,nogil=True, fastmath=True)
 def assess_must_actions(
     portfolio,
     ep_time,
@@ -314,10 +314,10 @@ def assess_must_actions(
     """
     # must close if about close to episode end or last datapoint
     must_close = False
-    must_close = must_close | (ep_time >= max_ep_step - 10)
+    must_close = must_close | (ep_time >= max_ep_step - 50)
     must_close = must_close | np.any(portfolio[:, 9] >= max_hold_time)
     # if self.is_training:
-    must_close = must_close | (curr_data_ind > max_data_ind - 25)
+    must_close = must_close | (curr_data_ind > max_data_ind - 50)
 
     # must hold if just opened position
     # portfolio_index, symbol_index, pip_val, max_short, max_long, pos_size, pos_dir
