@@ -33,6 +33,7 @@ def train_rl_agent(config, AgentModel):
     ray.init(address="auto")
 
     logdir = config.paths.algo_dir
+    ckpt_offset = max([int(x.split("/")[-1].strip()) for x in glob(f"{logdir}/0*")])
     _ = os.makedirs(logdir, exist_ok=True)
 
     ModelCatalog.register_custom_model("AgentModel", AgentModel)
