@@ -69,7 +69,7 @@ def train(agent_version):
         load_model=True,
     )
     client = aerospike.client(config.aerospike.connection).connect()
-    _ = update_gym_env_hparam(config, client)
+    _ = update_gym_env_hparam(config, client, overwrite_max_samples=False)
     train_rl_agent(config, AgentModel)
 
 

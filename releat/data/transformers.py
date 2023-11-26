@@ -28,7 +28,7 @@ from releat.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def find_clip_values(arr, lower_lim, upper_lim, method):
     """Find clip values.
 
@@ -62,7 +62,7 @@ def find_clip_values(arr, lower_lim, upper_lim, method):
     return clip_vals
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def clip_by_value(arr, clip_min, clip_max, scale_factor):
     """Clip by value.
 
@@ -140,7 +140,7 @@ def fit_scaler(arr, method):
         return out
 
 
-@njit
+@njit(cache=True, nogil=True, fastmath=True)
 def yeo_johnson_transform_vec(lmbda, mean, std, vec):
     """Yeo-johnson transform for vector.
 
@@ -187,7 +187,7 @@ def yeo_johnson_transform_vec(lmbda, mean, std, vec):
     return out
 
 
-@njit
+@njit(cache=True,nogil=True, fastmath=True)
 def yeo_johnson_transform(lmbda, mean, std, arr):
     """Yeo-johnson transform for array.
 
@@ -214,7 +214,7 @@ def yeo_johnson_transform(lmbda, mean, std, arr):
     return arr
 
 
-@njit
+@njit(cache=True,nogil=True, fastmath=True)
 def linear_scaling(arr):
     """Linear scaling.
 
