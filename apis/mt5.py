@@ -7,7 +7,7 @@ API so that data can be easily shared between linux and wine processes.
 """
 from __future__ import annotations
 
-import _pickle as cPickle
+import pickle as cPickle
 import argparse
 
 import pandas as pd
